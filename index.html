@@ -3,33 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEXP - Баланс</title>
-    <link rel="stylesheet" href="style.css">
+    <title>DEXP</title>
+    <style>
+        /* Загальні стилі */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #FF5733, #FFC300, #FF5733, #FFC300);
+            background-size: 400% 400%;
+            animation: gradientAnimation 5s ease infinite;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Анімація для фону */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Стилі для заголовка */
+        header h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #fefefe;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Стилі для основного контенту */
+        .content {
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        /* Баланс */
+        #balance {
+            font-size: 2rem;
+            margin-top: 30px;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Стилі для кнопки */
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            background: linear-gradient(45deg, #FF5733, #FFC300);
+            color: #fff;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        a:hover {
+            background: linear-gradient(45deg, #FFC300, #FF5733);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+        }
+
+        /* Стилі для футера */
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 15px;
+            font-size: 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Мобільна адаптивність */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .content {
+                padding: 15px;
+                width: 90%;
+            }
+
+            #balance {
+                font-size: 1.8rem;
+            }
+
+            a {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>DEXP</h1>
-        <p>Отримайте ваш баланс 1100 DEXP!</p>
+        <p>Виконуйте завдання та отримуйте баланс!</p>
     </header>
 
-    <main>
-        <section class="task">
-            <h2>Завдання:</h2>
-            <p>Щоб отримати баланс 1100 DEXP, підпишіться на наш канал:</p>
-            <a href="https://t.me/dexpua" target="_blank" id="subscribe-link">Підписатися на канал</a>
-            <p id="message"></p>
-        </section>
-
-        <section class="balance">
-            <h2>Ваш баланс:</h2>
-            <p id="balance">0 DEXP</p>
-        </section>
-    </main>
+    <div class="content">
+        <p id="balance">Ваш баланс: 0 DEXP</p>
+        <a href="https://t.me/dexpua" id="taskLink" target="_blank">Підписатися на канал DEXP UA</a>
+    </div>
 
     <footer>
-        <p>&copy; 2024 DEXP. Всі права захищені.</p>
+        <p>&copy; 2024 DEXP. All rights reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Отримуємо елементи
+        const taskLink = document.getElementById('taskLink');
+        const balanceElement = document.getElementById('balance');
+
+        // Ініціалізуємо баланс
+        let balance = 0;
+
+        // Функція для нарахування балансу
+        function addBalance() {
+            balance += 1100; // Нараховуємо 1100 DEXP
+            balanceElement.textContent = `Ваш баланс: ${balance} DEXP`; // Оновлюємо текст балансу
+        }
+
+        // Додаємо обробник події на перехід по посиланню
+        taskLink.addEventListener('click', function() {
+            setTimeout(addBalance, 1000); // Нараховуємо баланс через 1 секунду після переходу
+        });
+    </script>
 </body>
 </html>
