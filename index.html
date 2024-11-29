@@ -1,251 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paws - Earn Tokens</title>
-  <style>
-    /* Загальні стилі */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(145deg, #8e44ad, #ff6a00); /* Сучасний градієнт */
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      padding: 20px;
-      overflow: hidden;
-    }
-
-    /* Контейнер для гри */
-    .container {
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 20px;
-      padding: 50px;
-      width: 100%;
-      max-width: 800px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Заголовок */
-    h1 {
-      font-size: 48px;
-      color: #ffdd00;
-      margin-bottom: 20px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    /* Токени */
-    #balance {
-      font-size: 32px;
-      font-weight: 700;
-      color: #ffdd00;
-      margin-bottom: 30px;
-    }
-
-    /* Стилі для картинок */
-    .game-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 15px;
-      margin: 20px 0;
-    }
-
-    /* Стилі вкладок */
-    .tabs {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 30px;
-    }
-
-    .tab {
-      background-color: #ffdd00;
-      color: #2c0606;
-      padding: 15px 30px;
-      font-size: 20px;
-      cursor: pointer;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s;
-    }
-
-    .tab:hover {
-      background-color: #ffb700;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    .tab:active {
-      background-color: #d99e00;
-    }
-
-    /* Стилі для кнопки завдання */
-    .task-btn {
-      background: #ffdd00;
-      color: #2c0606;
-      font-size: 24px;
-      padding: 20px 50px;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-      margin-top: 20px;
-      width: 100%;
-      max-width: 350px;
-      text-transform: uppercase;
-    }
-
-    .task-btn:hover {
-      background: #ffb700;
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .task-btn:active {
-      background: #d99e00;
-    }
-
-    /* Анімація для нарахування токенів */
-    .token-animation {
-      position: absolute;
-      font-size: 28px;
-      font-weight: bold;
-      color: #ffdd00;
-      opacity: 1;
-      animation: moveUp 2s ease-out forwards;
-    }
-
-    @keyframes moveUp {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-150px);
-        opacity: 0;
-      }
-    }
-
-    /* Пояснення до завдань */
-    #instructions {
-      font-size: 18px;
-      color: #ffffff;
-      margin-top: 20px;
-    }
-
-    #instructions a {
-      color: #ffdd00;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    #instructions a:hover {
-      text-decoration: underline;
-    }
-
-    /* Адаптивні стилі */
-    @media (max-width: 768px) {
-      .container {
-        padding: 30px;
-      }
-
-      h1 {
-        font-size: 36px;
-      }
-
-      #balance {
-        font-size: 28px;
-      }
-
-      .task-btn {
-        font-size: 20px;
-        padding: 15px 40px;
-      }
-
-      #instructions {
-        font-size: 16px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAWS-like RPG</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #34495e;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .story {
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .choice {
+            padding: 10px;
+            background-color: #1abc9c;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            text-align: center;
+        }
+        .choice:hover {
+            background-color: #16a085;
+        }
+    </style>
 </head>
 <body>
-
-  <div class="container">
-    <h1>Заробляй токени за виконання завдань!</h1>
-    <p id="balance">Ваші токени: <span id="tokens">1000</span></p>
-
-    <div class="tabs">
-      <div class="tab" id="task-tab">Завдання</div>
-      <div class="tab" id="history-tab">Історія</div>
-      <div class="tab" id="settings-tab">Налаштування</div>
+    <div class="container">
+        <h1>RPG Adventure</h1>
+        <div id="game">
+            <p class="story" id="story">Welcome, adventurer! Your journey begins in a dark forest. You see two paths ahead. What do you do?</p>
+            <div class="choices" id="choices">
+                <!-- Choices will be generated here -->
+            </div>
+        </div>
     </div>
 
-    <div>
-      <img class="game-image" src="https://i.postimg.cc/6prdX5BZ/1000190986-removebg-preview.png" alt="Game Image">
-    </div>
+    <script>
+        const game = {
+            currentScene: 'start',
+            scenes: {
+                start: {
+                    text: "Welcome, adventurer! Your journey begins in a dark forest. You see two paths ahead. What do you do?",
+                    choices: [
+                        { text: "Take the left path", nextScene: "leftPath" },
+                        { text: "Take the right path", nextScene: "rightPath" }
+                    ]
+                },
+                leftPath: {
+                    text: "You encounter a witch! She offers you a potion. Do you take it?",
+                    choices: [
+                        { text: "Take the potion", nextScene: "potion" },
+                        { text: "Refuse the potion", nextScene: "refusePotion" }
+                    ]
+                },
+                rightPath: {
+                    text: "You stumble upon a treasure chest. Do you open it?",
+                    choices: [
+                        { text: "Open the chest", nextScene: "chest" },
+                        { text: "Leave it alone", nextScene: "leaveChest" }
+                    ]
+                },
+                potion: {
+                    text: "The potion gives you magical powers! You win!",
+                    choices: []
+                },
+                refusePotion: {
+                    text: "The witch curses you! You lose!",
+                    choices: []
+                },
+                chest: {
+                    text: "You find gold and jewels! You win!",
+                    choices: []
+                },
+                leaveChest: {
+                    text: "A bandit ambushes you! You lose!",
+                    choices: []
+                }
+            }
+        };
 
-    <div class="task-btn" id="subscribe-task">
-      Підпишіться на канал "DEXP UA"
-    </div>
+        const storyElement = document.getElementById('story');
+        const choicesElement = document.getElementById('choices');
 
-    <div id="instructions">
-      <p>Перейдіть за <a href="https://t.me/dexpua" target="_blank">посиланням на канал</a>, підпишіться, а потім натискайте кнопку для підтвердження!</p>
-    </div>
-  </div>
+        function renderScene(scene) {
+            storyElement.textContent = scene.text;
+            choicesElement.innerHTML = '';
+            scene.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.textContent = choice.text;
+                button.classList.add('choice');
+                button.onclick = () => {
+                    const nextScene = game.scenes[choice.nextScene];
+                    if (nextScene) {
+                        renderScene(nextScene);
+                    }
+                };
+                choicesElement.appendChild(button);
+            });
+        }
 
-  <script>
-    let tokens = 1000; // Початковий баланс
-    const tokensDisplay = document.getElementById('tokens');
-    const subscribeTask = document.getElementById('subscribe-task');
-    const taskTab = document.getElementById('task-tab');
-    const historyTab = document.getElementById('history-tab');
-    const settingsTab = document.getElementById('settings-tab');
-
-    // Функція для оновлення балансу
-    function updateTokens(amount) {
-      tokens += amount;
-      tokensDisplay.textContent = tokens;
-
-      // Анімація нарахування токенів
-      const animation = document.createElement('div');
-      animation.textContent = `+${amount}`;
-      animation.className = 'token-animation';
-      document.body.appendChild(animation);
-
-      // Розташування анімації біля балансу
-      const rect = tokensDisplay.getBoundingClientRect();
-      animation.style.left = `${rect.left + rect.width / 2}px`;
-      animation.style.top = `${rect.top}px`;
-
-      // Видалити анімацію після закінчення
-      setTimeout(() => {
-        animation.remove();
-      }, 2000);
-    }
-
-    // Обробник натискання на завдання
-    subscribeTask.addEventListener('click', () => {
-      // Відкриває канал у новій вкладці
-      window.open('https://t.me/dexpua', '_blank');
-      
-      // Повідомлення, що користувач має повернутися і натискати після підписки
-      alert("Ви перейшли на канал. Підпишіться, а потім натискайте 'OK' для підтвердження.");
-
-      // Перевірка, чи користувач підписався на канал (використовується після підписки)
-      updateTokens(500);  // Нарахувати токени
-      subscribeTask.textContent = 'Завдання виконано!';
-      subscribeTask.style.backgroundColor = '#555';
-      subscribeTask.style.color = '#ccc';
-      subscribeTask.style.cursor = 'not-allowed';
-    });
-
-    // Перемикання вкладок
+        renderScene(game.scenes[game.currentScene]);
+    </script>
+</body>
+</html>
