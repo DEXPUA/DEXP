@@ -3,151 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEXP</title>
+    <title>DEXP Game</title>
     <style>
         /* Основний стиль */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
+            background-color: #141E30;
+            color: #FFF;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(120deg, #4A90E2, #50E3C2);
-            background-size: 200% 200%;
-            animation: gradientAnimation 6s infinite;
-            color: #fff;
-        }
-
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            background: linear-gradient(120deg, #141E30, #243B55);
+            overflow: hidden;
         }
 
         /* Контейнер */
         .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            width: 90%;
+            width: 100%;
             max-width: 400px;
+            background: #1E293B;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
         }
 
-        /* Логотип */
-        #logo {
-            width: 100px;
-            height: auto;
-            margin: 0 auto 20px;
-            display: block;
+        /* Верхній блок */
+        .header {
+            background: #243B55;
+            padding: 15px;
+            text-align: center;
         }
 
-        /* Назва */
-        h1 {
-            font-size: 2.5rem;
+        .header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #00C0FF;
+        }
+
+        /* Чатова частина */
+        .chat {
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+            background: #1A2735;
+        }
+
+        .message {
             margin: 10px 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #FFFFFF;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            background: #243B55;
+            border-radius: 10px;
+            color: #FFF;
+            font-size: 1rem;
+            max-width: 80%;
         }
 
-        /* Підзаголовок */
-        p.subtitle {
+        .message.user {
+            background: #00C0FF;
+            margin-left: auto;
+            color: #000;
+        }
+
+        /* Баланс і кнопка */
+        .footer {
+            padding: 15px;
+            text-align: center;
+            background: #243B55;
+        }
+
+        .balance {
             font-size: 1.2rem;
-            color: #e0e0e0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            color: #FFD700;
         }
 
-        /* Баланс */
-        #balance {
-            font-size: 1.5rem;
-            margin: 20px 0;
-            font-weight: bold;
-            color: #50E3C2;
-            text-shadow: 0 3px 8px rgba(80, 227, 194, 0.9);
-        }
-
-        /* Кнопка */
         .button {
             display: inline-block;
-            margin-top: 20px;
-            padding: 15px 30px;
+            padding: 10px 20px;
             font-size: 1rem;
+            color: #FFF;
+            background: #00C0FF;
+            border-radius: 25px;
             text-decoration: none;
-            color: #fff;
-            background: linear-gradient(90deg, #50E3C2, #4A90E2);
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 192, 255, 0.4);
+            transition: 0.3s;
         }
 
         .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(90deg, #4A90E2, #50E3C2);
+            background: #0090CC;
+            box-shadow: 0 6px 15px rgba(0, 144, 204, 0.6);
         }
 
-        /* Футер */
-        footer {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        footer a {
-            color: #50E3C2;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
+        .button:active {
+            transform: scale(0.97);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Логотип -->
-        <img id="logo" src="https://i.postimg.cc/6prdX5BZ/1000190986-removebg-preview.png" alt="DEXP Logo">
-        
-        <!-- Назва -->
-        <h1>DEXP</h1>
-        
-        <!-- Опис -->
-        <p class="subtitle">Простий і стильний спосіб заробляти криптовалюту!</p>
-        
-        <!-- Баланс -->
-        <p id="balance">Ваш баланс: 0 DEXP</p>
-        
-        <!-- Кнопка -->
-        <a href="https://t.me/dexpua" class="button" id="taskLink" target="_blank">Підписатися на канал</a>
+        <!-- Заголовок -->
+        <div class="header">
+            <h1>DEXP Telegram Game</h1>
+        </div>
+
+        <!-- Чат -->
+        <div class="chat" id="chat">
+            <div class="message bot">Ласкаво просимо до DEXP!</div>
+            <div class="message bot">Завдання: підписатися на <a href="https://t.me/dexpua" target="_blank">DEXP UA</a>.</div>
+        </div>
+
+        <!-- Баланс і кнопка -->
+        <div class="footer">
+            <div class="balance" id="balance">Ваш баланс: 0 DEXP</div>
+            <a href="#" class="button" id="taskButton">Виконати завдання</a>
+        </div>
     </div>
 
-    <footer>
-        <p>&copy; 2024 DEXP. Усі права захищені. <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
-    </footer>
-
     <script>
-        // Елементи
-        const taskLink = document.getElementById('taskLink');
+        // Ініціалізуємо змінні
+        const chat = document.getElementById('chat');
         const balanceElement = document.getElementById('balance');
+        const taskButton = document.getElementById('taskButton');
 
-        // Ініціалізуємо баланс
         let balance = 0;
 
-        // Функція нарахування балансу
-        function addBalance() {
-            balance += 1100; // Додаємо 1100 DEXP
-            balanceElement.textContent = `Ваш баланс: ${balance} DEXP`; // Оновлюємо текст
+        // Функція додавання повідомлення в чат
+        function addMessage(text, isUser = false) {
+            const message = document.createElement('div');
+            message.classList.add('message', isUser ? 'user' : 'bot');
+            message.textContent = text;
+            chat.appendChild(message);
+            chat.scrollTop = chat.scrollHeight; // Прокрутка вниз
         }
 
-        // Додати слухач кліку на кнопку
-        taskLink.addEventListener('click', function() {
-            setTimeout(addBalance, 1000); // Баланс додається через 1 секунду
+        // Додавання балансу
+        function addBalance() {
+            balance += 1100;
+            balanceElement.textContent = `Ваш баланс: ${balance} DEXP`;
+            addMessage(`Ваш новий баланс: ${balance} DEXP`, false);
+        }
+
+        // Натискання кнопки
+        taskButton.addEventListener('click', () => {
+            addMessage('Переходжу на канал...', true);
+            setTimeout(() => {
+                addMessage('Ви підписалися на DEXP UA! Баланс оновлено.', false);
+                addBalance();
+            }, 2000);
         });
     </script>
 </body>
