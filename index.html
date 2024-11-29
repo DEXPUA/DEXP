@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web3 RPG with Telegram Wallet</title>
+    <title>Telegram Wallet Integration</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #1e272e;
-            color: #ffffff;
+            color: white;
             text-align: center;
             padding: 20px;
         }
         button {
-            background-color: #4cd137;
-            color: white;
-            border: none;
             padding: 10px 20px;
             font-size: 16px;
+            background-color: #4cd137;
+            border: none;
+            color: white;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
@@ -28,68 +28,20 @@
         .wallet-info {
             margin-top: 20px;
             font-size: 18px;
-            color: #00a8ff;
         }
     </style>
+    <script async src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <h1>Web3 Adventure Game</h1>
-    <p>Connect your Telegram Wallet to start the game!</p>
+    <h1>Telegram Wallet Integration</h1>
+    <p>Connect your Telegram Wallet to continue!</p>
     <button id="connectWallet">Connect Telegram Wallet</button>
     <div class="wallet-info" id="walletInfo"></div>
-    <div id="game" style="display: none;">
-        <p id="story">Welcome, blockchain adventurer! Your journey begins...</p>
-        <button id="actionButton">Start Quest</button>
-    </div>
 
     <script>
-        // Telegram Open Web Apps Initialization
-        let tg = window.Telegram.WebApp;
-        const connectWalletButton = document.getElementById("connectWallet");
-        const walletInfoDiv = document.getElementById("walletInfo");
-        const gameDiv = document.getElementById("game");
-        const storyElement = document.getElementById("story");
-        const actionButton = document.getElementById("actionButton");
+        const connectWalletButton = document.getElementById('connectWallet');
+        const walletInfoDiv = document.getElementById('walletInfo');
+        let tg;
 
-        let walletAddress;
-
-        // Function to connect Telegram Wallet
-        async function connectWallet() {
-            if (!tg.initData || !tg.initDataUnsafe) {
-                alert("Telegram WebApp is not initialized. Please open this in Telegram.");
-                return;
-            }
-
-            try {
-                // Fetch wallet address (via TON Wallet API)
-                const response = await fetch(`https://tonapi.io/v1/account/getInfo?address=${tg.initDataUnsafe.user.id}`, {
-                    method: 'GET',
-                });
-                const data = await response.json();
-                walletAddress = data.wallet || "Unknown Wallet";
-
-                walletInfoDiv.textContent = `Connected Wallet: ${walletAddress}`;
-                connectWalletButton.style.display = "none";
-                gameDiv.style.display = "block";
-            } catch (error) {
-                console.error("Error connecting wallet:", error);
-                alert("Failed to connect Telegram Wallet.");
-            }
-        }
-
-        // Event listener for connecting wallet
-        connectWalletButton.addEventListener("click", connectWallet);
-
-        // Simple game logic
-        actionButton.addEventListener("click", () => {
-            const randomEvent = Math.random();
-            if (randomEvent > 0.5) {
-                storyElement.textContent = `You found a treasure, ${walletAddress}! 🎉`;
-            } else {
-                storyElement.textContent = `Oh no, ${walletAddress}! A glitch stole your coins! Try again...`;
-            }
-        });
-    </script>
-    <script async src="https://telegram.org/js/telegram-web-app.js"></script>
-</body>
-</html>
+        // Check if Telegram WebApp API is available
+        if (window.Telegram && window.Telegram.WebApp)
