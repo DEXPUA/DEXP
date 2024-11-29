@@ -70,30 +70,13 @@
             position: relative;
         }
 
-        .hero:before {
-            content: '';
-            position: absolute;
-            top: -10%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
-            filter: blur(120px);
-            z-index: 0;
-        }
-
         .hero h1 {
             font-size: 4rem;
-            z-index: 1;
-            position: relative;
         }
 
         .hero p {
             font-size: 1.5rem;
             margin: 20px 0;
-            z-index: 1;
-            position: relative;
         }
 
         .hero a {
@@ -105,8 +88,6 @@
             border-radius: 30px;
             font-weight: bold;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            z-index: 1;
-            position: relative;
         }
 
         .hero a:hover {
@@ -239,7 +220,7 @@
     <section class="balance-section container" id="balance">
         <h3>Ваш баланс</h3>
         <p id="balanceValue">Баланс: 0 DEXP</p>
-        <button onclick="addBalance()">Отримати 1100 DEXP</button>
+        <button onclick="redirectToTelegram()">Отримати 1100 DEXP</button>
     </section>
 
     <footer>
@@ -247,12 +228,19 @@
     </footer>
 
     <script>
-        // Динамічний баланс
         let balance = 0;
 
-        function addBalance() {
-            balance += 1100;
-            document.getElementById("balanceValue").innerText = `Баланс: ${balance} DEXP`;
+        function redirectToTelegram() {
+            // Переходить на Telegram
+            const confirmAction = confirm("Перейти на Telegram для виконання завдання?");
+            if (confirmAction) {
+                window.open("https://t.me/dexpua", "_blank");
+                setTimeout(() => {
+                    balance += 1100;
+                    document.getElementById("balanceValue").innerText = `Баланс: ${balance} DEXP`;
+                    alert("Баланс нараховано!");
+                }, 2000); // Затримка, що імітує перевірку
+            }
         }
     </script>
 </body>
