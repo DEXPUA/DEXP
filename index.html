@@ -3,157 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEXP Game</title>
+    <title>DEXP - Криптовалютна платформа</title>
     <style>
         /* Основний стиль */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
-            background-color: #141E30;
-            color: #FFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(120deg, #141E30, #243B55);
-            overflow: hidden;
+            color: #fff;
+            background: linear-gradient(120deg, #1C1C1E, #2D2D30);
         }
 
         /* Контейнер */
         .container {
-            width: 100%;
-            max-width: 400px;
-            background: #1E293B;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        /* Верхній блок */
-        .header {
-            background: #243B55;
-            padding: 15px;
-            text-align: center;
+        /* Хедер */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
         }
 
-        .header h1 {
-            font-size: 1.8rem;
+        header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        nav ul {
+            list-style: none;
             margin: 0;
-            color: #00C0FF;
+            padding: 0;
+            display: flex;
+            gap: 20px;
         }
 
-        /* Чатова частина */
-        .chat {
-            padding: 15px;
-            height: 300px;
-            overflow-y: auto;
-            background: #1A2735;
-        }
-
-        .message {
-            margin: 10px 0;
-            padding: 10px 15px;
-            background: #243B55;
-            border-radius: 10px;
-            color: #FFF;
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
             font-size: 1rem;
-            max-width: 80%;
+            transition: color 0.3s ease;
         }
 
-        .message.user {
-            background: #00C0FF;
-            margin-left: auto;
-            color: #000;
+        nav ul li a:hover {
+            color: #FFD700;
         }
 
-        /* Баланс і кнопка */
-        .footer {
-            padding: 15px;
+        /* Герой секція */
+        .hero {
             text-align: center;
-            background: #243B55;
+            padding: 100px 20px;
+            background: linear-gradient(120deg, #141E30, #243B55);
+            border-radius: 15px;
+            margin-bottom: 50px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         }
 
-        .balance {
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
             font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .hero a {
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 15px 30px;
+            background: #FFD700;
+            color: #000;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .hero a:hover {
+            background: #E0B000;
+            box-shadow: 0 10px 20px rgba(224, 176, 0, 0.8);
+        }
+
+        /* Секція можливостей */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature {
+            flex: 1 1 calc(33.333% - 20px);
+            background: #243B55;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
             margin-bottom: 15px;
             color: #FFD700;
         }
 
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
+        .feature p {
             font-size: 1rem;
-            color: #FFF;
-            background: #00C0FF;
-            border-radius: 25px;
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #1C1C1E;
+            margin-top: 50px;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        footer a {
+            color: #FFD700;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0, 192, 255, 0.4);
-            transition: 0.3s;
         }
 
-        .button:hover {
-            background: #0090CC;
-            box-shadow: 0 6px 15px rgba(0, 144, 204, 0.6);
-        }
-
-        .button:active {
-            transform: scale(0.97);
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Заголовок -->
-        <div class="header">
-            <h1>DEXP Telegram Game</h1>
+    <header class="container">
+        <h1>DEXP</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">Про нас</a></li>
+                <li><a href="#features">Можливості</a></li>
+                <li><a href="#contact">Контакти</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Ласкаво просимо до DEXP</h1>
+        <p>Отримуйте винагороди, виконуйте завдання та відкривайте нові можливості з криптовалютою.</p>
+        <a href="https://t.me/dexpua" target="_blank">Приєднатися зараз</a>
+    </section>
+
+    <section class="features container" id="features">
+        <div class="feature">
+            <h3>Швидкі транзакції</h3>
+            <p>Миттєвий переказ коштів без прихованих комісій.</p>
         </div>
-
-        <!-- Чат -->
-        <div class="chat" id="chat">
-            <div class="message bot">Ласкаво просимо до DEXP!</div>
-            <div class="message bot">Завдання: підписатися на <a href="https://t.me/dexpua" target="_blank">DEXP UA</a>.</div>
+        <div class="feature">
+            <h3>Стабільний дохід</h3>
+            <p>Виконуйте завдання та отримуйте винагороди в DEXP.</p>
         </div>
-
-        <!-- Баланс і кнопка -->
-        <div class="footer">
-            <div class="balance" id="balance">Ваш баланс: 0 DEXP</div>
-            <a href="#" class="button" id="taskButton">Виконати завдання</a>
+        <div class="feature">
+            <h3>Безпека</h3>
+            <p>Ваші дані та кошти завжди під надійним захистом.</p>
         </div>
-    </div>
+    </section>
 
-    <script>
-        // Ініціалізуємо змінні
-        const chat = document.getElementById('chat');
-        const balanceElement = document.getElementById('balance');
-        const taskButton = document.getElementById('taskButton');
-
-        let balance = 0;
-
-        // Функція додавання повідомлення в чат
-        function addMessage(text, isUser = false) {
-            const message = document.createElement('div');
-            message.classList.add('message', isUser ? 'user' : 'bot');
-            message.textContent = text;
-            chat.appendChild(message);
-            chat.scrollTop = chat.scrollHeight; // Прокрутка вниз
-        }
-
-        // Додавання балансу
-        function addBalance() {
-            balance += 1100;
-            balanceElement.textContent = `Ваш баланс: ${balance} DEXP`;
-            addMessage(`Ваш новий баланс: ${balance} DEXP`, false);
-        }
-
-        // Натискання кнопки
-        taskButton.addEventListener('click', () => {
-            addMessage('Переходжу на канал...', true);
-            setTimeout(() => {
-                addMessage('Ви підписалися на DEXP UA! Баланс оновлено.', false);
-                addBalance();
-            }, 2000);
-        });
-    </script>
+    <footer>
+        <p>&copy; 2024 DEXP. Усі права захищені. <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
+    </footer>
 </body>
 </html>
