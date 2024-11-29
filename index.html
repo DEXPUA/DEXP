@@ -6,8 +6,8 @@
   <title>Task Game</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #2c0606;
+      font-family: 'Arial', sans-serif;
+      background: #2c0606;
       color: #ffdd00;
       margin: 0;
       padding: 0;
@@ -19,21 +19,30 @@
     }
     .container {
       text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
     }
     .task {
-      margin: 20px 0;
-      padding: 15px;
       background-color: #ffdd00;
       color: #2c0606;
-      border-radius: 5px;
+      padding: 20px;
+      border-radius: 10px;
       cursor: pointer;
-      display: inline-block;
+      font-size: 18px;
+      transition: 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
     .task:hover {
       background-color: #d4b100;
+      transform: scale(1.05);
     }
     #balance {
       margin: 20px 0;
+      font-size: 24px;
     }
     .token-animation {
       position: absolute;
@@ -60,19 +69,20 @@
     <h1>Виконуйте завдання та заробляйте токени!</h1>
     <p id="balance">Ваші токени: <span id="tokens">1000</span></p>
     <div id="tasks">
-      <div class="task" data-task="1" data-reward="100">Підпишіться на канал "Приклад" (+100 токенів)</div>
-      <div class="task" data-task="2" data-reward="50">Перегляньте пост "Новини дня" (+50 токенів)</div>
-      <div class="task" data-task="3" data-reward="200">Подивіться відео "Як це працює" (+200 токенів)</div>
+      <div class="task" id="subscribe-task">Підпишіться на канал "DEXP UA" та натисніть для підтвердження (+500 токенів)</div>
+    </div>
+    <div id="instructions">
+      <p>Перейдіть за <a href="https://t.me/dexpua" target="_blank">посиланням на канал</a>, підпишіться на канал, а потім натискайте на кнопку.</p>
     </div>
   </div>
+
   <script>
     let tokens = 1000; // Початковий баланс
     const tokensDisplay = document.getElementById('tokens');
-    const tasks = document.querySelectorAll('.task');
+    const subscribeTask = document.getElementById('subscribe-task');
 
     // Функція для оновлення балансу
     function updateTokens(amount) {
-      // Додати токени
       tokens += amount;
       tokensDisplay.textContent = tokens;
 
@@ -82,7 +92,7 @@
       animation.className = 'token-animation';
       document.body.appendChild(animation);
 
-      // Розташування анімації біля завдання
+      // Розташування анімації біля балансу
       const rect = tokensDisplay.getBoundingClientRect();
       animation.style.left = `${rect.left + rect.width / 2}px`;
       animation.style.top = `${rect.top}px`;
@@ -93,20 +103,19 @@
       }, 2000);
     }
 
-    // Обробник завдань
-    tasks.forEach(task => {
-      task.addEventListener('click', () => {
-        const reward = parseInt(task.dataset.reward);
+    // Обробник натискання на завдання
+    subscribeTask.addEventListener('click', () => {
+      // Тут ми перевіряємо, чи користувач натиснув кнопку після того, як перейшов за лінком
+      alert("Токени нараховано! Дякуємо за підписку на канал DEXP UA.");
 
-        // Нарахувати токени
-        updateTokens(reward);
+      // Нарахувати токени
+      updateTokens(500);
 
-        // Деактивувати завдання після виконання
-        task.textContent = 'Завдання виконано!';
-        task.style.pointerEvents = 'none';
-        task.style.backgroundColor = '#555';
-        task.style.color = '#ccc';
-      });
+      // Змінити текст кнопки після виконання завдання
+      subscribeTask.textContent = 'Завдання виконано!';
+      subscribeTask.style.backgroundColor = '#555';
+      subscribeTask.style.color = '#ccc';
+      subscribeTask.style.cursor = 'not-allowed';
     });
   </script>
 </body>
