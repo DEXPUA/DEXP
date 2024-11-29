@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Game 2024 - Ultimate Version</title>
+  <title>Task Game 2024 - DEXP UA</title>
   <style>
-    /* Основні стилі */
+    /* Стилі для всіх елементів */
     * {
       margin: 0;
       padding: 0;
@@ -14,27 +14,29 @@
 
     body {
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(145deg, #2c0606, #ff6a00);
+      background: linear-gradient(145deg, #2c0606, #ff6a00); /* Сучасний градієнт */
       color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
       padding: 20px;
+      overflow: hidden;
     }
 
+    /* Основний контейнер гри */
     .container {
-      text-align: center;
       background: rgba(0, 0, 0, 0.8);
       border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       padding: 50px;
       width: 100%;
-      max-width: 600px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
+      max-width: 800px;
+      text-align: center;
+      backdrop-filter: blur(15px);
     }
 
+    /* Заголовок */
     h1 {
       font-size: 48px;
       color: #ffdd00;
@@ -43,6 +45,7 @@
       text-transform: uppercase;
     }
 
+    /* Баланс токенів */
     #balance {
       font-size: 32px;
       font-weight: 700;
@@ -50,6 +53,42 @@
       margin-bottom: 30px;
     }
 
+    /* Стилі для картинок */
+    .game-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 15px;
+      margin: 20px 0;
+    }
+
+    /* Стилі вкладок */
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      background-color: #ffdd00;
+      color: #2c0606;
+      padding: 15px 30px;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s;
+    }
+
+    .tab:hover {
+      background-color: #ffb700;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .tab:active {
+      background-color: #d99e00;
+    }
+
+    /* Стилі для кнопки завдання */
     .task-btn {
       background: #ffdd00;
       color: #2c0606;
@@ -58,8 +97,9 @@
       border: none;
       border-radius: 15px;
       cursor: pointer;
-      transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      margin-top: 20px;
       width: 100%;
       max-width: 350px;
       text-transform: uppercase;
@@ -75,22 +115,24 @@
       background: #d99e00;
     }
 
+    /* Пояснення до завдань */
     #instructions {
       font-size: 18px;
-      margin-top: 20px;
       color: #ffffff;
+      margin-top: 20px;
     }
 
     #instructions a {
       color: #ffdd00;
-      text-decoration: none;
       font-weight: bold;
+      text-decoration: none;
     }
 
     #instructions a:hover {
       text-decoration: underline;
     }
 
+    /* Анімація для нарахування токенів */
     .token-animation {
       position: absolute;
       font-size: 28px;
@@ -111,13 +153,7 @@
       }
     }
 
-    .game-image {
-      max-width: 100%;
-      height: auto;
-      margin: 20px 0;
-      border-radius: 15px;
-    }
-
+    /* Адаптивні стилі */
     @media (max-width: 768px) {
       .container {
         padding: 30px;
@@ -148,6 +184,12 @@
     <h1>Заробляй токени за виконання завдань!</h1>
     <p id="balance">Ваші токени: <span id="tokens">1000</span></p>
 
+    <div class="tabs">
+      <div class="tab" id="task-tab">Завдання</div>
+      <div class="tab" id="history-tab">Історія</div>
+      <div class="tab" id="settings-tab">Налаштування</div>
+    </div>
+
     <div>
       <img class="game-image" src="https://i.postimg.cc/6prdX5BZ/1000190986-removebg-preview.png" alt="Game Image">
     </div>
@@ -165,6 +207,9 @@
     let tokens = 1000; // Початковий баланс
     const tokensDisplay = document.getElementById('tokens');
     const subscribeTask = document.getElementById('subscribe-task');
+    const taskTab = document.getElementById('task-tab');
+    const historyTab = document.getElementById('history-tab');
+    const settingsTab = document.getElementById('settings-tab');
 
     // Функція для оновлення балансу
     function updateTokens(amount) {
@@ -203,7 +248,6 @@
       subscribeTask.style.color = '#ccc';
       subscribeTask.style.cursor = 'not-allowed';
     });
-  </script>
 
-</body>
-</html>
+    // Перемикання вкладок
+    taskTab.addEventListener('click', () => {
