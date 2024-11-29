@@ -3,47 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Game</title>
+  <title>Task Game 2024</title>
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: #2c0606;
-      color: #ffdd00;
+    * {
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(145deg, #2c0606, #ff6a00); /* Сучасний градієнт */
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      padding: 20px;
+    }
+
     .container {
       text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      padding: 40px;
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
+      backdrop-filter: blur(10px);
     }
+
     h1 {
-      font-size: 32px;
+      font-size: 36px;
+      color: #ffdd00;
       margin-bottom: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
     }
-    .task {
-      background-color: #ffdd00;
+
+    p {
+      font-size: 18px;
+      color: #d3d3d3;
+      margin-bottom: 30px;
+    }
+
+    #balance {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #ffdd00;
+    }
+
+    .task-btn {
+      background: #ffdd00;
       color: #2c0606;
-      padding: 20px;
+      font-size: 20px;
+      padding: 15px 30px;
+      border: none;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 18px;
-      transition: 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 300px;
+      text-transform: uppercase;
     }
-    .task:hover {
-      background-color: #d4b100;
+
+    .task-btn:hover {
+      background: #ffb700;
       transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
-    #balance {
-      margin: 20px 0;
-      font-size: 24px;
+
+    .task-btn:active {
+      background: #d99e00;
     }
+
+    #instructions {
+      font-size: 16px;
+      margin-top: 15px;
+      color: #ffffff;
+    }
+
+    #instructions a {
+      color: #ffdd00;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #instructions a:hover {
+      text-decoration: underline;
+    }
+
     .token-animation {
       position: absolute;
       font-size: 24px;
@@ -52,6 +104,7 @@
       opacity: 1;
       animation: moveUp 2s ease-out forwards;
     }
+
     @keyframes moveUp {
       0% {
         transform: translateY(0);
@@ -62,17 +115,39 @@
         opacity: 0;
       }
     }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+
+      p, #balance {
+        font-size: 16px;
+      }
+
+      .task-btn {
+        padding: 12px 25px;
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Виконуйте завдання та заробляйте токени!</h1>
+    <h1>Заробляй токени за виконання завдань!</h1>
+    <p>Перейдіть за посиланням, підпишіться на канал і натискайте кнопку для отримання токенів.</p>
     <p id="balance">Ваші токени: <span id="tokens">1000</span></p>
-    <div id="tasks">
-      <div class="task" id="subscribe-task">Підпишіться на канал "DEXP UA" та натисніть для підтвердження (+500 токенів)</div>
+
+    <div class="task-btn" id="subscribe-task">
+      Підпишіться на канал "DEXP UA"
     </div>
+
     <div id="instructions">
-      <p>Перейдіть за <a href="https://t.me/dexpua" target="_blank">посиланням на канал</a>, підпишіться на канал, а потім натискайте на кнопку.</p>
+      <p>Перейдіть за <a href="https://t.me/dexpua" target="_blank">посиланням на канал</a>, підпишіться, а потім натискайте кнопку!</p>
     </div>
   </div>
 
@@ -105,13 +180,14 @@
 
     // Обробник натискання на завдання
     subscribeTask.addEventListener('click', () => {
-      // Тут ми перевіряємо, чи користувач натиснув кнопку після того, як перейшов за лінком
-      alert("Токени нараховано! Дякуємо за підписку на канал DEXP UA.");
+      // Відкриває канал у новій вкладці
+      window.open('https://t.me/dexpua', '_blank');
+      
+      // Повідомлення, що користувач має повернутися і натискати після підписки
+      alert("Ви перейшли на канал. Підпишіться, а потім натискайте 'OK' для підтвердження.");
 
-      // Нарахувати токени
-      updateTokens(500);
-
-      // Змінити текст кнопки після виконання завдання
+      // Перевірка, чи користувач підписався на канал (використовується після підписки)
+      updateTokens(500);  // Нарахувати токени
       subscribeTask.textContent = 'Завдання виконано!';
       subscribeTask.style.backgroundColor = '#555';
       subscribeTask.style.color = '#ccc';
