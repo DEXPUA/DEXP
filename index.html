@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Wallet Integration</title>
+    <title>DEXP</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,23 +25,107 @@
         button:hover {
             background-color: #44bd32;
         }
-        .wallet-info {
+        .wallet-info, .balance {
             margin-top: 20px;
+            font-size: 18px;
+        }
+        .task {
+            margin-top: 30px;
             font-size: 18px;
         }
     </style>
     <script async src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <h1>Telegram Wallet Integration</h1>
-    <p>Connect your Telegram Wallet to continue!</p>
+    <h1>Welcome to DEXP</h1>
+    <p>Connect your Telegram Wallet to explore the DEXP world!</p>
     <button id="connectWallet">Connect Telegram Wallet</button>
     <div class="wallet-info" id="walletInfo"></div>
+    <div class="balance" id="balanceInfo" style="display: none;">Balance: 1000 DEXP</div>
+
+    <div class="task" id="task" style="display: none;">
+        <p>Complete the task to earn 500 DEXP:</p>
+        <a href="https://t.me/dexpua" target="_blank">Subscribe to DEXP Channel</a>
+        <br><br>
+        <button id="completeTask">Complete Task</button>
+    </div>
 
     <script>
         const connectWalletButton = document.getElementById('connectWallet');
         const walletInfoDiv = document.getElementById('walletInfo');
+        const balanceInfoDiv = document.getElementById('balanceInfo');
+        const taskDiv = document.getElementById('task');
+        const completeTaskButton = document.getElementById('completeTask');
+
         let tg;
+        let balance = 1000;
+        let taskCompleted = false; // Tracks if the task has already been completed
 
         // Check if Telegram WebApp API is available
-        if (window.Telegram && window.Telegram.WebApp)
+        if (window.Telegram && window.Telegram.WebApp) {
+            tg = window.Telegram.WebApp;
+            tg.expand(); // Expands WebApp to fullscreen
+        } else {
+            alert("Please open this application in Telegram.");
+        }
+
+        // Function to fetch wallet info from Telegram
+        async function connectWallet() {
+            if (!tg) {
+                alert("Telegram WebApp is not initialized. Please reload this page in Telegram.");
+                return;
+            }
+
+            try {
+                const userId = tg.initDataUnsafe?.user?.id;
+                if (!userId) {
+                    walletInfoDiv.textContent = "Failed to retrieve user information. Make sure you are logged in.";
+                    return;
+                }
+
+                // Simulated TON Wallet integration (replace with real API)
+                const tonApiUrl = `https://tonapi.io/v1/account/getInfo?user_id=${userId}`;
+                const response = await fetch(tonApiUrl);
+                const data = await response.json();
+
+                if (data.wallet) {
+                    walletInfoDiv.textContent = `Connected Wallet: ${data.wallet}`;
+                } else {
+                    walletInfoDiv.textContent = "No wallet found. Please set up a TON Wallet.";
+                }
+
+                // Display balance and task
+                balanceInfoDiv.style.display = "block";
+                taskDiv.style.display = "block";
+
+                connectWalletButton.style.display = "none";
+            } catch (error) {
+                console.error("Error connecting wallet:", error);
+                walletInfoDiv.textContent = "Failed to connect wallet. Please try again later.";
+            }
+        }
+
+        // Function to complete the task
+        completeTaskButton.addEventListener('click', () => {
+            if (taskCompleted) {
+                alert("You have already completed this task.");
+                return;
+            }
+
+            // Simulate checking subscription (in reality, this needs a bot-server validation)
+            const userSubscribed = confirm("Have you subscribed to the DEXP channel?"); // Replace with real check
+            if (userSubscribed) {
+                balance += 500;
+                balanceInfoDiv.textContent = `Balance: ${balance} DEXP`;
+                taskCompleted = true;
+                completeTaskButton.style.display = "none";
+                alert("Task completed! You earned 500 DEXP.");
+            } else {
+                alert("Please subscribe to the channel to complete the task.");
+            }
+        });
+
+        connectWalletButton.addEventListener('click', connectWallet);
+    </script>
+</body>
+</html>
