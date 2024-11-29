@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEXP</title>
     <style>
-        /* Загальні стилі */
+        /* Основні стилі */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -14,140 +14,134 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(45deg, #FF5733, #FFC300, #FF5733, #FFC300);
-            background-size: 400% 400%;
-            animation: gradientAnimation 5s ease infinite;
+            background: linear-gradient(45deg, #FF5733, #FFC300, #FF5733);
+            background-size: 300% 300%;
+            animation: backgroundAnimation 6s ease infinite;
             color: white;
+        }
+
+        @keyframes backgroundAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Стилі для контейнера */
+        .container {
             text-align: center;
-            overflow: hidden;
+            max-width: 400px;
+            width: 90%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* Анімація для фону */
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* Стилі для заголовка */
-        header h1 {
-            font-size: 4rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-        }
-
-        header p {
-            font-size: 1.5rem;
-            font-weight: 300;
-            color: #fefefe;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Стилі для картинок */
+        /* Стилі для логотипа */
         #logo {
-            width: 100px;
+            width: 120px;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        /* Стилі для основного контенту */
-        .content {
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            max-width: 450px;
-            width: 100%;
+        /* Заголовок */
+        h1 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            color: #FFD700;
+            text-transform: uppercase;
+            text-shadow: 0 4px 10px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Підзаголовок */
+        p.subtitle {
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            margin-bottom: 20px;
         }
 
         /* Баланс */
         #balance {
-            font-size: 2rem;
-            margin-top: 30px;
+            font-size: 1.8rem;
+            color: #FFA500;
+            margin: 20px 0;
             font-weight: bold;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 2px 5px rgba(255, 165, 0, 0.8);
         }
 
-        /* Стилі для кнопки */
+        /* Кнопка */
         a {
             display: inline-block;
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 1.2rem;
             text-decoration: none;
-            background: linear-gradient(45deg, #FF5733, #FFC300);
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
             color: #fff;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(90deg, #FF4500, #FF8C00, #FF4500);
+            border-radius: 50px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
 
         a:hover {
-            background: linear-gradient(45deg, #FFC300, #FF5733);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #FF8C00, #FF4500);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
             transform: translateY(-5px);
         }
 
-        /* Стилі для футера */
+        /* Футер */
         footer {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 15px;
-            font-size: 1rem;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #aaa;
         }
 
-        /* Мобільна адаптивність */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
+        footer a {
+            color: #FFD700;
+            text-decoration: none;
+        }
 
-            .content {
-                padding: 15px;
-                width: 90%;
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Адаптивність */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
             }
 
             #balance {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
 
             a {
-                padding: 12px 24px;
-                font-size: 1rem;
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <!-- Картинка з прозорим фоном над логотипом -->
+    <div class="container">
+        <!-- Логотип -->
         <img id="logo" src="https://i.postimg.cc/6prdX5BZ/1000190986-removebg-preview.png" alt="DEXP Logo">
+        
+        <!-- Назва сайту -->
         <h1>DEXP</h1>
-        <p>Виконуйте завдання та отримуйте баланс!</p>
-    </header>
-
-    <div class="content">
+        
+        <!-- Підзаголовок -->
+        <p class="subtitle">Заробляйте DEXP, виконуючи прості завдання!</p>
+        
+        <!-- Баланс -->
         <p id="balance">Ваш баланс: 0 DEXP</p>
+        
+        <!-- Кнопка -->
         <a href="https://t.me/dexpua" id="taskLink" target="_blank">Підписатися на канал DEXP UA</a>
     </div>
 
     <footer>
-        <p>&copy; 2024 DEXP. All rights reserved.</p>
+        <p>&copy; 2024 DEXP. Створено для вашого заробітку. <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
     </footer>
 
     <script>
@@ -158,15 +152,15 @@
         // Ініціалізуємо баланс
         let balance = 0;
 
-        // Функція для нарахування балансу
+        // Функція для оновлення балансу
         function addBalance() {
-            balance += 1100; // Нараховуємо 1100 DEXP
+            balance += 1100; // Додаємо 1100 DEXP
             balanceElement.textContent = `Ваш баланс: ${balance} DEXP`; // Оновлюємо текст балансу
         }
 
-        // Додаємо обробник події на перехід по посиланню
+        // Додаємо обробник події на клік по посиланню
         taskLink.addEventListener('click', function() {
-            setTimeout(addBalance, 1000); // Нараховуємо баланс через 1 секунду після переходу
+            setTimeout(addBalance, 1000); // Нарахування балансу через 1 секунду
         });
     </script>
 </body>
