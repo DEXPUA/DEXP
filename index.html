@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Game 2024 - DEXP UA</title>
+  <title>Paws - Earn Tokens</title>
   <style>
-    /* Стилі для всіх елементів */
+    /* Загальні стилі */
     * {
       margin: 0;
       padding: 0;
@@ -14,7 +14,7 @@
 
     body {
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(145deg, #2c0606, #ff6a00); /* Сучасний градієнт */
+      background: linear-gradient(145deg, #8e44ad, #ff6a00); /* Сучасний градієнт */
       color: #ffffff;
       display: flex;
       justify-content: center;
@@ -24,16 +24,15 @@
       overflow: hidden;
     }
 
-    /* Основний контейнер гри */
+    /* Контейнер для гри */
     .container {
       background: rgba(0, 0, 0, 0.8);
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       padding: 50px;
       width: 100%;
       max-width: 800px;
       text-align: center;
-      backdrop-filter: blur(15px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     /* Заголовок */
@@ -45,7 +44,7 @@
       text-transform: uppercase;
     }
 
-    /* Баланс токенів */
+    /* Токени */
     #balance {
       font-size: 32px;
       font-weight: 700;
@@ -115,23 +114,6 @@
       background: #d99e00;
     }
 
-    /* Пояснення до завдань */
-    #instructions {
-      font-size: 18px;
-      color: #ffffff;
-      margin-top: 20px;
-    }
-
-    #instructions a {
-      color: #ffdd00;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    #instructions a:hover {
-      text-decoration: underline;
-    }
-
     /* Анімація для нарахування токенів */
     .token-animation {
       position: absolute;
@@ -151,6 +133,23 @@
         transform: translateY(-150px);
         opacity: 0;
       }
+    }
+
+    /* Пояснення до завдань */
+    #instructions {
+      font-size: 18px;
+      color: #ffffff;
+      margin-top: 20px;
+    }
+
+    #instructions a {
+      color: #ffdd00;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    #instructions a:hover {
+      text-decoration: underline;
     }
 
     /* Адаптивні стилі */
@@ -250,4 +249,3 @@
     });
 
     // Перемикання вкладок
-    taskTab.addEventListener('click', () => {
