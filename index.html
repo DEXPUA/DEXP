@@ -5,88 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEXP</title>
     <style>
-        /* Основні стилі */
+        /* Основний стиль */
         body {
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(45deg, #FF5733, #FFC300, #FF5733);
-            background-size: 300% 300%;
-            animation: backgroundAnimation 6s ease infinite;
-            color: white;
+            background: linear-gradient(120deg, #FF4500, #FFC300);
+            background-size: 200% 200%;
+            animation: gradientAnimation 6s infinite;
+            color: #fff;
         }
 
-        @keyframes backgroundAnimation {
+        @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Стилі для контейнера */
+        /* Контейнер */
         .container {
             text-align: center;
-            max-width: 400px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             width: 90%;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
         }
 
-        /* Стилі для логотипа */
+        /* Логотип */
         #logo {
             width: 120px;
             height: auto;
-            margin-bottom: 15px;
+            margin: 0 auto 20px;
+            display: block;
         }
 
-        /* Заголовок */
+        /* Назва */
         h1 {
             font-size: 2.5rem;
             margin: 10px 0;
-            color: #FFD700;
             text-transform: uppercase;
-            text-shadow: 0 4px 10px rgba(255, 215, 0, 0.7);
+            letter-spacing: 2px;
+            color: #FFD700;
+            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.7);
         }
 
         /* Підзаголовок */
         p.subtitle {
             font-size: 1.2rem;
-            color: #f0f0f0;
+            color: #e0e0e0;
             margin-bottom: 20px;
         }
 
         /* Баланс */
         #balance {
             font-size: 1.8rem;
-            color: #FFA500;
             margin: 20px 0;
             font-weight: bold;
-            text-shadow: 0 2px 5px rgba(255, 165, 0, 0.8);
+            color: #FFA500;
+            text-shadow: 0 3px 8px rgba(255, 165, 0, 0.9);
         }
 
         /* Кнопка */
-        a {
+        .button {
             display: inline-block;
-            text-decoration: none;
+            margin-top: 20px;
             padding: 15px 30px;
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
             color: #fff;
-            background: linear-gradient(90deg, #FF4500, #FF8C00, #FF4500);
+            background: linear-gradient(90deg, #FF4500, #FF8C00);
             border-radius: 50px;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
         }
 
-        a:hover {
-            background: linear-gradient(90deg, #FF8C00, #FF4500);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
+        .button:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
+            background: linear-gradient(90deg, #FF8C00, #FF4500);
         }
 
         /* Футер */
@@ -104,22 +106,6 @@
         footer a:hover {
             text-decoration: underline;
         }
-
-        /* Адаптивність */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            #balance {
-                font-size: 1.5rem;
-            }
-
-            a {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -127,40 +113,40 @@
         <!-- Логотип -->
         <img id="logo" src="https://i.postimg.cc/6prdX5BZ/1000190986-removebg-preview.png" alt="DEXP Logo">
         
-        <!-- Назва сайту -->
+        <!-- Назва -->
         <h1>DEXP</h1>
         
-        <!-- Підзаголовок -->
-        <p class="subtitle">Заробляйте DEXP, виконуючи прості завдання!</p>
+        <!-- Опис -->
+        <p class="subtitle">Заробляйте криптовалюту DEXP, виконуючи завдання!</p>
         
         <!-- Баланс -->
         <p id="balance">Ваш баланс: 0 DEXP</p>
         
         <!-- Кнопка -->
-        <a href="https://t.me/dexpua" id="taskLink" target="_blank">Підписатися на канал DEXP UA</a>
+        <a href="https://t.me/dexpua" class="button" id="taskLink" target="_blank">Підписатися на канал</a>
     </div>
 
     <footer>
-        <p>&copy; 2024 DEXP. Створено для вашого заробітку. <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
+        <p>&copy; 2024 DEXP. Усі права захищені. <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
     </footer>
 
     <script>
-        // Отримуємо елементи
+        // Елементи
         const taskLink = document.getElementById('taskLink');
         const balanceElement = document.getElementById('balance');
 
         // Ініціалізуємо баланс
         let balance = 0;
 
-        // Функція для оновлення балансу
+        // Функція нарахування балансу
         function addBalance() {
             balance += 1100; // Додаємо 1100 DEXP
-            balanceElement.textContent = `Ваш баланс: ${balance} DEXP`; // Оновлюємо текст балансу
+            balanceElement.textContent = `Ваш баланс: ${balance} DEXP`; // Оновлюємо текст
         }
 
-        // Додаємо обробник події на клік по посиланню
+        // Додати слухач кліку на кнопку
         taskLink.addEventListener('click', function() {
-            setTimeout(addBalance, 1000); // Нарахування балансу через 1 секунду
+            setTimeout(addBalance, 1000); // Баланс додається через 1 секунду
         });
     </script>
 </body>
