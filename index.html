@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(120deg, #FF4500, #FFC300);
+            background: linear-gradient(120deg, #4A90E2, #50E3C2);
             background-size: 200% 200%;
             animation: gradientAnimation 6s infinite;
             color: #fff;
@@ -29,9 +29,10 @@
         /* Контейнер */
         .container {
             text-align: center;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.1);
             padding: 30px 20px;
-            border-radius: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             width: 90%;
             max-width: 400px;
@@ -39,7 +40,7 @@
 
         /* Логотип */
         #logo {
-            width: 120px;
+            width: 100px;
             height: auto;
             margin: 0 auto 20px;
             display: block;
@@ -51,8 +52,8 @@
             margin: 10px 0;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #FFD700;
-            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.7);
+            color: #FFFFFF;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         /* Підзаголовок */
@@ -64,11 +65,11 @@
 
         /* Баланс */
         #balance {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin: 20px 0;
             font-weight: bold;
-            color: #FFA500;
-            text-shadow: 0 3px 8px rgba(255, 165, 0, 0.9);
+            color: #50E3C2;
+            text-shadow: 0 3px 8px rgba(80, 227, 194, 0.9);
         }
 
         /* Кнопка */
@@ -76,19 +77,19 @@
             display: inline-block;
             margin-top: 20px;
             padding: 15px 30px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             text-decoration: none;
             color: #fff;
-            background: linear-gradient(90deg, #FF4500, #FF8C00);
+            background: linear-gradient(90deg, #50E3C2, #4A90E2);
             border-radius: 50px;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
 
         .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
-            background: linear-gradient(90deg, #FF8C00, #FF4500);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(90deg, #4A90E2, #50E3C2);
         }
 
         /* Футер */
@@ -99,7 +100,7 @@
         }
 
         footer a {
-            color: #FFD700;
+            color: #50E3C2;
             text-decoration: none;
         }
 
@@ -117,7 +118,7 @@
         <h1>DEXP</h1>
         
         <!-- Опис -->
-        <p class="subtitle">Заробляйте криптовалюту DEXP, виконуючи завдання!</p>
+        <p class="subtitle">Простий і стильний спосіб заробляти криптовалюту!</p>
         
         <!-- Баланс -->
         <p id="balance">Ваш баланс: 0 DEXP</p>
