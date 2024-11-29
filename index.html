@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEXP - Криптовалютна платформа</title>
     <style>
-        /* Основний стиль */
+        /* Загальний стиль */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-            background: linear-gradient(120deg, #1C1C1E, #2D2D30);
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle, #1B1B3A, #000000);
+            color: #FFFFFF;
+            overflow-x: hidden;
         }
 
         /* Контейнер */
@@ -19,7 +20,6 @@
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
 
         /* Хедер */
@@ -28,12 +28,16 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         header h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
-            color: #FFD700;
+            background: linear-gradient(90deg, #FFD700, #FF4500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
         }
 
         nav ul {
@@ -41,13 +45,13 @@
             margin: 0;
             padding: 0;
             display: flex;
-            gap: 20px;
+            gap: 30px;
         }
 
         nav ul li a {
             text-decoration: none;
-            color: #fff;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
             transition: color 0.3s ease;
         }
 
@@ -58,37 +62,56 @@
         /* Герой секція */
         .hero {
             text-align: center;
-            padding: 100px 20px;
+            padding: 120px 20px;
             background: linear-gradient(120deg, #141E30, #243B55);
-            border-radius: 15px;
-            margin-bottom: 50px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+            filter: blur(120px);
+            z-index: 0;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 4rem;
+            z-index: 1;
+            position: relative;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            z-index: 1;
+            position: relative;
         }
 
         .hero a {
             text-decoration: none;
-            font-size: 1rem;
-            padding: 15px 30px;
-            background: #FFD700;
+            padding: 15px 40px;
+            font-size: 1.2rem;
             color: #000;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 15px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(90deg, #FFD700, #FF4500);
+            border-radius: 30px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1;
+            position: relative;
         }
 
         .hero a:hover {
-            background: #E0B000;
-            box-shadow: 0 10px 20px rgba(224, 176, 0, 0.8);
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
         }
 
         /* Секція можливостей */
@@ -101,34 +124,74 @@
 
         .feature {
             flex: 1 1 calc(33.333% - 20px);
-            background: #243B55;
-            border-radius: 15px;
+            background: linear-gradient(145deg, #243B55, #141E30);
+            border-radius: 20px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
         }
 
         .feature h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
             color: #FFD700;
         }
 
         .feature p {
-            font-size: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Баланс */
+        .balance-section {
+            background: linear-gradient(145deg, #243B55, #141E30);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 50px;
+        }
+
+        .balance-section h3 {
+            font-size: 2.5rem;
+            color: #FFD700;
+        }
+
+        .balance-section p {
+            font-size: 1.5rem;
+        }
+
+        .balance-section button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+            background: linear-gradient(90deg, #FFD700, #FF4500);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .balance-section button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
         }
 
         /* Футер */
         footer {
             text-align: center;
             padding: 20px 0;
-            background: #1C1C1E;
-            margin-top: 50px;
+            background: #1B1B3A;
         }
 
         footer p {
-            font-size: 0.9rem;
-            color: #aaa;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         footer a {
@@ -146,17 +209,16 @@
         <h1>DEXP</h1>
         <nav>
             <ul>
-                <li><a href="#about">Про нас</a></li>
                 <li><a href="#features">Можливості</a></li>
-                <li><a href="#contact">Контакти</a></li>
+                <li><a href="#balance">Баланс</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Ласкаво просимо до DEXP</h1>
-        <p>Отримуйте винагороди, виконуйте завдання та відкривайте нові можливості з криптовалютою.</p>
-        <a href="https://t.me/dexpua" target="_blank">Приєднатися зараз</a>
+        <h1>DEXP: Ваш вибір у Web3</h1>
+        <p>Виконуйте завдання, отримуйте винагороди та розкривайте потенціал майбутнього.</p>
+        <a href="https://t.me/dexpua" target="_blank">Приєднатися</a>
     </section>
 
     <section class="features container" id="features">
@@ -169,13 +231,29 @@
             <p>Виконуйте завдання та отримуйте винагороди в DEXP.</p>
         </div>
         <div class="feature">
-            <h3>Безпека</h3>
-            <p>Ваші дані та кошти завжди під надійним захистом.</p>
+            <h3>Надійна безпека</h3>
+            <p>Ваші дані завжди під надійним захистом.</p>
         </div>
+    </section>
+
+    <section class="balance-section container" id="balance">
+        <h3>Ваш баланс</h3>
+        <p id="balanceValue">Баланс: 0 DEXP</p>
+        <button onclick="addBalance()">Отримати 1100 DEXP</button>
     </section>
 
     <footer>
         <p>&copy; 2024 DEXP. Усі права захищені. <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
     </footer>
+
+    <script>
+        // Динамічний баланс
+        let balance = 0;
+
+        function addBalance() {
+            balance += 1100;
+            document.getElementById("balanceValue").innerText = `Баланс: ${balance} DEXP`;
+        }
+    </script>
 </body>
 </html>
