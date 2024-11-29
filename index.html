@@ -15,20 +15,17 @@
             overflow-x: hidden;
         }
 
-        /* Контейнер */
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Хедер */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         header h1 {
@@ -40,101 +37,13 @@
             margin: 0;
         }
 
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 30px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #FFD700;
-        }
-
-        /* Герой секція */
-        .hero {
-            text-align: center;
-            padding: 120px 20px;
-            background: linear-gradient(120deg, #141E30, #243B55);
-            border-radius: 20px;
-            margin: 40px 0;
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin: 20px 0;
-        }
-
-        .hero a {
-            text-decoration: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            color: #000;
-            background: linear-gradient(90deg, #FFD700, #FF4500);
-            border-radius: 30px;
-            font-weight: bold;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hero a:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
-        }
-
-        /* Секція можливостей */
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .feature {
-            flex: 1 1 calc(33.333% - 20px);
-            background: linear-gradient(145deg, #243B55, #141E30);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease;
-        }
-
-        .feature:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-        }
-
-        .feature h3 {
-            font-size: 1.8rem;
-            color: #FFD700;
-        }
-
-        .feature p {
-            font-size: 1.1rem;
-        }
-
-        /* Баланс */
         .balance-section {
             background: linear-gradient(145deg, #243B55, #141E30);
             border-radius: 20px;
             padding: 30px;
             text-align: center;
+            margin-top: 100px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            margin-bottom: 50px;
         }
 
         .balance-section h3 {
@@ -163,83 +72,46 @@
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
         }
 
-        /* Футер */
         footer {
             text-align: center;
             padding: 20px 0;
             background: #1B1B3A;
-        }
-
-        footer p {
-            font-size: 1rem;
             color: rgba(255, 255, 255, 0.7);
-        }
-
-        footer a {
-            color: #FFD700;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <header class="container">
         <h1>DEXP</h1>
-        <nav>
-            <ul>
-                <li><a href="#features">Можливості</a></li>
-                <li><a href="#balance">Баланс</a></li>
-            </ul>
-        </nav>
     </header>
-
-    <section class="hero">
-        <h1>DEXP: Ваш вибір у Web3</h1>
-        <p>Виконуйте завдання, отримуйте винагороди та розкривайте потенціал майбутнього.</p>
-        <a href="https://t.me/dexpua" target="_blank">Приєднатися</a>
-    </section>
-
-    <section class="features container" id="features">
-        <div class="feature">
-            <h3>Швидкі транзакції</h3>
-            <p>Миттєвий переказ коштів без прихованих комісій.</p>
-        </div>
-        <div class="feature">
-            <h3>Стабільний дохід</h3>
-            <p>Виконуйте завдання та отримуйте винагороди в DEXP.</p>
-        </div>
-        <div class="feature">
-            <h3>Надійна безпека</h3>
-            <p>Ваші дані завжди під надійним захистом.</p>
-        </div>
-    </section>
 
     <section class="balance-section container" id="balance">
         <h3>Ваш баланс</h3>
         <p id="balanceValue">Баланс: 0 DEXP</p>
-        <button onclick="redirectToTelegram()">Отримати 1100 DEXP</button>
+        <button id="getBalanceBtn" onclick="redirectToTelegram()">Отримати 1100 DEXP</button>
     </section>
 
     <footer>
-        <p>&copy; 2024 DEXP. Усі права захищені. <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
+        <p>&copy; 2024 DEXP. Усі права захищені.</p>
     </footer>
 
     <script>
-        let balance = 0;
+        let balance = 0; // Початковий баланс
+        let balanceAwarded = false; // Перевірка, чи баланс вже був нарахований
 
         function redirectToTelegram() {
-            // Переходить на Telegram
-            const confirmAction = confirm("Перейти на Telegram для виконання завдання?");
-            if (confirmAction) {
-                window.open("https://t.me/dexpua", "_blank");
+            if (!balanceAwarded) {
+                balanceAwarded = true; // Встановлюємо, що баланс вже нарахований
+                window.open("https://t.me/dexpua", "_blank"); // Перехід на Telegram
+
+                // Нараховуємо баланс після переходу
                 setTimeout(() => {
                     balance += 1100;
                     document.getElementById("balanceValue").innerText = `Баланс: ${balance} DEXP`;
                     alert("Баланс нараховано!");
-                }, 2000); // Затримка, що імітує перевірку
+                }, 2000); // Імітація перевірки переходу
+            } else {
+                alert("Баланс вже було нараховано!");
             }
         }
     </script>
