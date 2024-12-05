@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEX Key Puzzle Solver</title>
+    <title>HEX Unsolved Key Finder</title>
     <script src="https://cdn.jsdelivr.net/npm/bitcoinjs-lib@5.1.9/dist/bitcoinjs-lib.min.js"></script>
 </head>
 <body>
-    <h1>HEX Key Puzzle Solver</h1>
+    <h1>HEX Unsolved Key Finder</h1>
     <p id="status">Status: Waiting...</p>
     <button onclick="startBruteForce()">Start Brute Force</button>
 
@@ -19,7 +19,7 @@
         const startKey = BigInt("0x0000000000000000000000000000000000000000000000100000000000000000");
         const stopKey = BigInt("0x00000000000000000000000000000000000000000000001fffffffffffffffff");
 
-        // Функція для генерування адреси з приватного ключа
+        // Функція для генерації P2PKH-адреси з приватного ключа
         function privateKeyToAddress(privateKeyHex) {
             const privateKeyBuffer = Buffer.from(privateKeyHex, 'hex');
             const keyPair = bitcoinjs-lib.ECPair.fromPrivateKey(privateKeyBuffer);
@@ -27,13 +27,13 @@
             return address;
         }
 
-        // Асинхронна функція для перебору ключів
+        // Асинхронна функція для перебору ключів у діапазоні
         async function startBruteForce() {
             const statusElement = document.getElementById("status");
             statusElement.textContent = "Status: Brute-forcing...";
 
             for (let key = startKey; key <= stopKey; key++) {
-                const hexKey = key.toString(16).padStart(64, "0"); // Конвертуємо в hex
+                const hexKey = key.toString(16).padStart(64, "0"); // Перетворення ключа в HEX
 
                 // Генерація адреси з приватного ключа
                 const address = privateKeyToAddress(hexKey);
@@ -47,7 +47,7 @@
 
                 // Оновлення статусу для запобігання зависанню браузера
                 if (key % 100000n === 0n) {
-                    await new Promise(resolve => setTimeout(resolve, 0));
+                    await new Promise(resolve => setTimeout(resolve, 0)); // Затримка для асинхронності
                     statusElement.textContent = `Status: Checked ${key.toString(16)}`;
                 }
             }
