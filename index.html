@@ -1,77 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Пошук забутої крипти</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    textarea, button {
-      display: block;
-      margin: 10px 0;
-      width: 100%;
-      max-width: 500px;
-    }
-    #results {
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEX Key Puzzle</title>
 </head>
 <body>
-  <h1>Пошук забутої крипти</h1>
-  <p>Введіть seed-фразу для перевірки балансу:</p>
-  <textarea id="seedPhrase" rows="4" placeholder="Введіть seed-фразу тут..."></textarea>
-  <button onclick="checkBalance()">Перевірити баланс</button>
-  
-  <div id="results">
-    <h2>Результати:</h2>
-    <ul id="results-list"></ul>
-  </div>
+    <h1>HEX Key Puzzle Solver</h1>
+    <p id="status">Status: Waiting...</p>
+    <button onclick="startBruteForce()">Start Brute Force</button>
 
-  <!-- Підключаємо бібліотеку ethers.js -->
-  <script src="https://cdn.ethers.io/lib/ethers-5.2.min.js"></script>
+    <script>
+        const target = "19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG";
+        const startKey = BigInt("0x0000000000000000000000000000000000000000000000100000000000000000");
+        const stopKey = BigInt("0x00000000000000000000000000000000000000000000001fffffffffffffffff");
 
-  <script>
-    const API_KEY = '241NUQVGVHPSUWUNBU2JFHNV9A744KBBPK'; // Ваш API-ключ Etherscan
-
-    async function checkBalance() {
-      const seedPhrase = document.getElementById('seedPhrase').value.trim();
-
-      if (!seedPhrase) {
-        alert('Будь ласка, введіть seed-фразу!');
-        return;
-      }
-
-      try {
-        // Генерація адреси гаманця з seed-фрази
-        const wallet = ethers.Wallet.fromMnemonic(seedPhrase);
-        const address = wallet.address;
-        console.log(`Адреса гаманця: ${address}`);
-
-        // Перевірка балансу гаманця через API Etherscan
-        const response = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${address}&tag=latest&apikey=${API_KEY}`);
-        const data = await response.json();
-
-        const resultsList = document.getElementById('results-list');
-        resultsList.innerHTML = '';
-
-        if (data.status === "1") {
-          const balance = parseFloat(data.result) / 1e18; // Перетворення з wei в ETH
-          const listItem = document.createElement('li');
-          listItem.textContent = `Адреса: ${address} | Баланс: ${balance} ETH`;
-          resultsList.appendChild(listItem);
-        } else {
-          const listItem = document.createElement('li');
-          listItem.textContent = `Адреса: ${address} | Помилка: ${data.message}`;
-          resultsList.appendChild(listItem);
+        function hexToAddress(hex) {
+            // Це спрощена функція для прикладу (замініть на реальну логіку, якщо відомо)
+            // Тут має бути перетворення HEX у вашу цільову адресу.
+            return "19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG"; // Мок-результат
         }
-      } catch (error) {
-        alert('Сталася помилка при обробці seed-фрази або запиту. Перевірте seed-фразу та спробуйте ще раз.');
-      }
-    }
-  </script>
+
+        async function startBruteForce() {
+            const statusElement = document.getElementById("status");
+            statusElement.textContent = "Status: Brute-forcing...";
+
+            for (let key = startKey; key <= stopKey; key++) {
+                const address = hexToAddress(key.toString(16));
+                if (address === target) {
+                    statusElement.textContent = `Status: Key found! ${key.toString(16)}`;
+                    console.log(`Key found: ${key.toString(16)}`);
+                    return;
+                }
+
+                // Update status occasionally to avoid freezing the browser
+                if (key % 100000n === 0n) {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    statusElement.textContent = `Status: Checked ${key.toString(16)}`;
+                }
+            }
+
+            statusElement.textContent = "Status: Key not found in range.";
+        }
+    </script>
 </body>
 </html>
