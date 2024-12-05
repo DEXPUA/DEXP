@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEX Key Puzzle</title>
+    <title>HEX Key Puzzle Solver</title>
+    <script src="https://cdn.jsdelivr.net/npm/bitcoinjs-lib@5.1.9/dist/bitcoinjs-lib.min.js"></script>
 </head>
 <body>
     <h1>HEX Key Puzzle Solver</h1>
@@ -11,29 +12,40 @@
     <button onclick="startBruteForce()">Start Brute Force</button>
 
     <script>
-        const target = "19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG";
+        // Цільова P2PKH-адреса
+        const targetAddress = "19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG";
+
+        // Діапазон ключів
         const startKey = BigInt("0x0000000000000000000000000000000000000000000000100000000000000000");
         const stopKey = BigInt("0x00000000000000000000000000000000000000000000001fffffffffffffffff");
 
-        function hexToAddress(hex) {
-            // Це спрощена функція для прикладу (замініть на реальну логіку, якщо відомо)
-            // Тут має бути перетворення HEX у вашу цільову адресу.
-            return "19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG"; // Мок-результат
+        // Функція для генерування адреси з приватного ключа
+        function privateKeyToAddress(privateKeyHex) {
+            const privateKeyBuffer = Buffer.from(privateKeyHex, 'hex');
+            const keyPair = bitcoinjs-lib.ECPair.fromPrivateKey(privateKeyBuffer);
+            const { address } = bitcoinjs-lib.payments.p2pkh({ pubkey: keyPair.publicKey });
+            return address;
         }
 
+        // Асинхронна функція для перебору ключів
         async function startBruteForce() {
             const statusElement = document.getElementById("status");
             statusElement.textContent = "Status: Brute-forcing...";
 
             for (let key = startKey; key <= stopKey; key++) {
-                const address = hexToAddress(key.toString(16));
-                if (address === target) {
-                    statusElement.textContent = `Status: Key found! ${key.toString(16)}`;
-                    console.log(`Key found: ${key.toString(16)}`);
+                const hexKey = key.toString(16).padStart(64, "0"); // Конвертуємо в hex
+
+                // Генерація адреси з приватного ключа
+                const address = privateKeyToAddress(hexKey);
+
+                // Перевірка, чи це цільова адреса
+                if (address === targetAddress) {
+                    statusElement.textContent = `Status: Key found! ${hexKey}`;
+                    console.log(`Key found: ${hexKey}`);
                     return;
                 }
 
-                // Update status occasionally to avoid freezing the browser
+                // Оновлення статусу для запобігання зависанню браузера
                 if (key % 100000n === 0n) {
                     await new Promise(resolve => setTimeout(resolve, 0));
                     statusElement.textContent = `Status: Checked ${key.toString(16)}`;
