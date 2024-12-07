@@ -3,51 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генерація ключів і перевірка балансу</title>
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+    <title>Тест кнопки</title>
 </head>
 <body>
-    <h1>Генерація ключів і перевірка балансу</h1>
-    
-    <button id="generateButton">Згенерувати ключі та перевірити баланс</button>
-    <div id="results"></div>
+    <h1>Перевірка роботи кнопки</h1>
+    <button id="testButton">Натисни мене</button>
+    <div id="output"></div>
 
     <script>
-        // Додаємо обробник до кнопки
-        document.getElementById('generateButton').addEventListener('click', generateAndCheck);
-
-        async function generateAndCheck() {
-            const providerUrl = "https://rpc.ankr.com/eth"; // Публічний RPC
-            const provider = new ethers.providers.JsonRpcProvider(providerUrl);
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = "Перевірка триває...<br>";
-
-            for (let i = 0; i < 5; i++) { // Генеруємо 5 адрес
-                const wallet = ethers.Wallet.createRandom();
-                const address = wallet.address;
-                const privateKey = wallet.privateKey;
-
-                try {
-                    const balance = await provider.getBalance(address);
-                    const etherBalance = ethers.utils.formatEther(balance);
-
-                    resultsDiv.innerHTML += `
-                        <b>Адреса:</b> ${address}<br>
-                        <b>Приватний ключ:</b> ${privateKey}<br>
-                        <b>Баланс:</b> ${etherBalance} ETH<br><hr>
-                    `;
-                } catch (error) {
-                    console.error("Помилка з адресою:", address, error);
-                    resultsDiv.innerHTML += `
-                        <b>Адреса:</b> ${address}<br>
-                        <b>Приватний ключ:</b> ${privateKey}<br>
-                        <b>Помилка:</b> Неможливо отримати баланс.<br><hr>
-                    `;
-                }
-            }
-
-            resultsDiv.innerHTML += "<b>Перевірка завершена.</b>";
-        }
+        document.getElementById('testButton').addEventListener('click', function () {
+            document.getElementById('output').innerHTML = "Кнопка працює!";
+        });
     </script>
 </body>
 </html>
