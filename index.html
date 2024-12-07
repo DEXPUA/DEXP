@@ -14,7 +14,7 @@
 
     <script>
         async function generateAndCheck() {
-            const provider = new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth"); // Відкритий RPC
+            const provider = new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth"); // Публічний RPC
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = "Перевірка триває...<br>";
 
@@ -28,13 +28,13 @@
                     const etherBalance = ethers.utils.formatEther(balance);
 
                     resultsDiv.innerHTML += `
-                        Адреса: ${address}<br>
-                        Приватний ключ: ${privateKey}<br>
-                        Баланс: ${etherBalance} ETH<br><br>
+                        <b>Адреса:</b> ${address}<br>
+                        <b>Приватний ключ:</b> ${privateKey}<br>
+                        <b>Баланс:</b> ${etherBalance} ETH<br><hr>
                     `;
                 } catch (error) {
                     console.error(error);
-                    resultsDiv.innerHTML += `Помилка перевірки для адреси: ${address}<br>`;
+                    resultsDiv.innerHTML += `<b>Адреса:</b> ${address}<br>Помилка при перевірці балансу.<br><hr>`;
                 }
             }
         }
