@@ -3,56 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEX Unsolved Key Finder</title>
-    <script src="https://cdn.jsdelivr.net/npm/bitcoinjs-lib@5.1.9/dist/bitcoinjs-lib.min.js"></script>
+    <title>Генерація ключів і перевірка балансу</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 </head>
 <body>
-    <h1>HEX Unsolved Key Finder</h1>
-    <p id="status">Status: Waiting...</p>
-    <button onclick="startBruteForce()">Start Brute Force</button>
+    <h1>Генерація ключів і перевірка балансу</h1>
+    
+    <button onclick="generateAndCheck()">Згенерувати ключі та перевірити баланс</button>
+    <div id="results"></div>
 
     <script>
-        // Цільова P2PKH-адреса
-        const targetAddress = "19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG";
+        async function generateAndCheck() {
+            const provider = new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth"); // Відкритий RPC
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = "Перевірка триває...<br>";
 
-        // Діапазон ключів
-        const startKey = BigInt("0x0000000000000000000000000000000000000000000000100000000000000000");
-        const stopKey = BigInt("0x00000000000000000000000000000000000000000000001fffffffffffffffff");
+            for (let i = 0; i < 5; i++) { // Генеруємо 5 адрес
+                const wallet = ethers.Wallet.createRandom();
+                const address = wallet.address;
+                const privateKey = wallet.privateKey;
 
-        // Функція для генерації P2PKH-адреси з приватного ключа
-        function privateKeyToAddress(privateKeyHex) {
-            const privateKeyBuffer = Buffer.from(privateKeyHex, 'hex');
-            const keyPair = bitcoinjs-lib.ECPair.fromPrivateKey(privateKeyBuffer);
-            const { address } = bitcoinjs-lib.payments.p2pkh({ pubkey: keyPair.publicKey });
-            return address;
-        }
+                try {
+                    const balance = await provider.getBalance(address);
+                    const etherBalance = ethers.utils.formatEther(balance);
 
-        // Асинхронна функція для перебору ключів у діапазоні
-        async function startBruteForce() {
-            const statusElement = document.getElementById("status");
-            statusElement.textContent = "Status: Brute-forcing...";
-
-            for (let key = startKey; key <= stopKey; key++) {
-                const hexKey = key.toString(16).padStart(64, "0"); // Перетворення ключа в HEX
-
-                // Генерація адреси з приватного ключа
-                const address = privateKeyToAddress(hexKey);
-
-                // Перевірка, чи це цільова адреса
-                if (address === targetAddress) {
-                    statusElement.textContent = `Status: Key found! ${hexKey}`;
-                    console.log(`Key found: ${hexKey}`);
-                    return;
-                }
-
-                // Оновлення статусу для запобігання зависанню браузера
-                if (key % 100000n === 0n) {
-                    await new Promise(resolve => setTimeout(resolve, 0)); // Затримка для асинхронності
-                    statusElement.textContent = `Status: Checked ${key.toString(16)}`;
+                    resultsDiv.innerHTML += `
+                        Адреса: ${address}<br>
+                        Приватний ключ: ${privateKey}<br>
+                        Баланс: ${etherBalance} ETH<br><br>
+                    `;
+                } catch (error) {
+                    console.error(error);
+                    resultsDiv.innerHTML += `Помилка перевірки для адреси: ${address}<br>`;
                 }
             }
-
-            statusElement.textContent = "Status: Key not found in range.";
         }
     </script>
 </body>
