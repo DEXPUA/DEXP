@@ -3,27 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест генерації ключів</title>
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+    <title>My CryptoCoin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .ledger {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .transaction {
+            margin: 5px 0;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
-    <h1>Тест генерації ключів</h1>
-    <button id="generateButton">Згенерувати ключі</button>
-    <div id="results"></div>
+    <div class="container">
+        <h1>My CryptoCoin</h1>
+        <p>Створіть транзакцію:</p>
+        <input type="text" id="sender" placeholder="Відправник (наприклад, Alice)">
+        <input type="text" id="receiver" placeholder="Отримувач (наприклад, Bob)">
+        <input type="number" id="amount" placeholder="Сума (наприклад, 50)">
+        <button onclick="createTransaction()">Відправити</button>
+        
+        <h3>Журнал транзакцій:</h3>
+        <div class="ledger" id="ledger"></div>
+    </div>
 
     <script>
-        document.getElementById('generateButton').addEventListener('click', function () {
-            const wallet = ethers.Wallet.createRandom(); // Генерація ключів
-            const address = wallet.address;
-            const privateKey = wallet.privateKey;
+        const ledger = [];
 
-            // Вивід результату
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `
-                <b>Адреса:</b> ${address}<br>
-                <b>Приватний ключ:</b> ${privateKey}<br>
-            `;
-        });
+        function createTransaction() {
+            const sender = document.getElementById('sender').value;
+            const receiver = document.getElementById('receiver').value;
+            const amount = document.getElementById('amount').value;
+
+            if (!sender || !receiver || amount <= 0) {
+                alert("Будь ласка, введіть коректні дані.");
+                return;
+            }
+
+            const transaction = {
+                sender: sender,
+                receiver: receiver,
+                amount: Number(amount),
+                timestamp: new Date().toLocaleString()
+            };
+
+            ledger.push(transaction);
+            displayLedger();
+        }
+
+        function displayLedger() {
+            const ledgerDiv = document.getElementById('ledger');
+            ledgerDiv.innerHTML = '';
+
+            ledger.forEach((tx, index) => {
+                const txDiv = document.createElement('div');
+                txDiv.className = 'transaction';
+                txDiv.innerHTML = `
+                    <strong>#${index + 1}</strong> 
+                    Відправник: ${tx.sender} → Отримувач: ${tx.receiver} 
+                    <br>Сума: ${tx.amount} 
+                    <br><small>${tx.timestamp}</small>
+                `;
+                ledgerDiv.appendChild(txDiv);
+            });
+        }
     </script>
 </body>
 </html>
