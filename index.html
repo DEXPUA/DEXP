@@ -140,7 +140,7 @@
       <p>Деталі про токен та його застосування можна знайти на офіційних платформах.</p>
     </div>
     <div class="price-section">
-      <div id="price" class="price">Завантаження ціни...</div>
+      <div id="price" class="price">Ціна токена: $0.08</div>
       <button class="button" onclick="fetchPrice()">Оновити ціну</button>
     </div>
   </div>
@@ -149,24 +149,29 @@
   </footer>
 
   <script>
-    // Функція для отримання ціни токена через CoinGecko API
-    async function fetchPrice() {
+    // Встановлюємо поточну ціну вручну
+    function fetchPrice() {
       const priceElement = document.getElementById("price");
       priceElement.innerText = "Оновлюється...";
-      try {
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=dexp&vs_currencies=usd"
-        );
-        const data = await response.json();
-        if (data.dexp && data.dexp.usd) {
-          priceElement.innerText = `Ціна токена: $${data.dexp.usd}`;
-        } else {
-          priceElement.innerText = "Ціна недоступна";
-        }
-      } catch (error) {
-        priceElement.innerText = "Помилка завантаження ціни";
-        console.error("Error fetching price:", error);
-      }
+      
+      // Якщо потрібно отримати ціну через API, можна використовувати наступний код
+      /*
+      fetch("https://api.coingecko.com/api/v3/simple/price?ids=dexp&vs_currencies=usd")
+        .then(response => response.json())
+        .then(data => {
+          if (data.dexp && data.dexp.usd) {
+            priceElement.innerText = `Ціна токена: $${data.dexp.usd}`;
+          } else {
+            priceElement.innerText = "Ціна недоступна";
+          }
+        })
+        .catch(() => {
+          priceElement.innerText = "Помилка завантаження ціни";
+        });
+      */
+
+      // Для тестування вручну:
+      priceElement.innerText = "Ціна токена: $0.08";
     }
 
     // Виклик функції при завантаженні сторінки
