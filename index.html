@@ -5,69 +5,129 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DEXP Token - TON Network</title>
   <style>
+    /* Загальні стилі */
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       background: linear-gradient(135deg, #000000, #FF8C00, #FFD700);
       color: #fff;
       text-align: center;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       min-height: 100vh;
     }
+
     .container {
-      max-width: 600px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 800px;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      overflow: hidden;
+      animation: fadeIn 1.5s ease;
     }
-    h1, h2 {
-      margin: 10px 0;
-    }
+
     h1 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       color: #FFD700;
+      margin: 0;
+      animation: glow 2s infinite alternate;
     }
+
     h2 {
       font-size: 1.5rem;
       color: #FF8C00;
-    }
-    .image {
       margin: 20px 0;
     }
-    .image img {
-      max-width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-    .address {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      border-radius: 8px;
-      word-break: break-word;
-      font-family: monospace;
+
+    .description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ddd;
       margin: 20px 0;
+    }
+
+    /* Секція з ціною */
+    .price-section {
+      margin: 30px 0;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
       color: #FFD700;
+      text-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
+      margin-bottom: 20px;
     }
-    button {
-      background: #FF8C00;
-      color: #fff;
-      border: none;
+
+    .loading {
+      font-size: 1.5rem;
+      color: #888;
+    }
+
+    /* Кнопка оновлення */
+    .button {
+      display: inline-block;
+      background: linear-gradient(90deg, #FF8C00, #FFD700);
+      color: #000;
+      font-size: 1rem;
+      font-weight: bold;
       padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 16px;
+      border: none;
+      border-radius: 25px;
       cursor: pointer;
-      transition: background 0.3s;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
     }
-    button:hover {
-      background: #FFD700;
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
     }
+
+    .button:active {
+      transform: translateY(1px);
+    }
+
+    /* Анімації */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
+      }
+      to {
+        text-shadow: 0 0 20px #FFD700, 0 0 30px #FF4500;
+      }
+    }
+
+    /* Додатковий футер */
     footer {
       margin-top: 20px;
-      font-size: 14px;
-      color: #999;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    footer a {
+      color: #FFD700;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -75,26 +135,42 @@
   <div class="container">
     <h1>DEXP Token</h1>
     <h2>Мережа: TON</h2>
-    <div class="image">
-      <img src="https://i.postimg.cc/YSPq5Dp1/1000191221.png" alt="DEXP Token">
+    <div class="description">
+      <p>DEXP – це токен, створений у блокчейні TON, який використовується для винагороди в інноваційних ігрових рішеннях.</p>
+      <p>Деталі про токен та його застосування можна знайти на офіційних платформах.</p>
     </div>
-    <p><strong>Адреса смарт-контракту:</strong></p>
-    <div class="address" id="contract-address">EQCyIM8AlyvtsoIplSrfGUSiqUrFTAYnF6Fv_8JqEv0oU4G0</div>
-    <button onclick="copyAddress()">Скопіювати адресу</button>
-    <h2>Про токен</h2>
-    <p>DEXP – це токен на базі блокчейну TON, який використовується для винагороди користувачів у Telegram-грі. Цей токен є частиною інноваційної екосистеми.</p>
+    <div class="price-section">
+      <div id="price" class="price">Завантаження ціни...</div>
+      <button class="button" onclick="fetchPrice()">Оновити ціну</button>
+    </div>
   </div>
   <footer>
-    &copy; 2024 DEXP. Усі права захищені.
+    &copy; 2024 DEXP. Усі права захищені. <a href="#">Політика конфіденційності</a>
   </footer>
 
   <script>
-    function copyAddress() {
-      const address = document.getElementById('contract-address').innerText;
-      navigator.clipboard.writeText(address).then(() => {
-        alert('Адресу скопійовано!');
-      });
+    // Функція для отримання ціни токена через CoinGecko API
+    async function fetchPrice() {
+      const priceElement = document.getElementById("price");
+      priceElement.innerText = "Оновлюється...";
+      try {
+        const response = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=dexp&vs_currencies=usd"
+        );
+        const data = await response.json();
+        if (data.dexp && data.dexp.usd) {
+          priceElement.innerText = `Ціна токена: $${data.dexp.usd}`;
+        } else {
+          priceElement.innerText = "Ціна недоступна";
+        }
+      } catch (error) {
+        priceElement.innerText = "Помилка завантаження ціни";
+        console.error("Error fetching price:", error);
+      }
     }
+
+    // Виклик функції при завантаженні сторінки
+    fetchPrice();
   </script>
 </body>
 </html>
