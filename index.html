@@ -1,109 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My CryptoCoin</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #007BFF;
-            color: #fff;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .ledger {
-            margin-top: 20px;
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        .transaction {
-            margin: 5px 0;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEXP Token - TON Network</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #000000, #FF8C00, #FFD700);
+      color: #fff;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+    h1, h2 {
+      margin: 10px 0;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #FFD700;
+    }
+    h2 {
+      font-size: 1.5rem;
+      color: #FF8C00;
+    }
+    .image {
+      margin: 20px 0;
+    }
+    .image img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .address {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      word-break: break-word;
+      font-family: monospace;
+      margin: 20px 0;
+      color: #FFD700;
+    }
+    button {
+      background: #FF8C00;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #FFD700;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>My CryptoCoin</h1>
-        <p>Створіть транзакцію:</p>
-        <input type="text" id="sender" placeholder="Відправник (наприклад, Alice)">
-        <input type="text" id="receiver" placeholder="Отримувач (наприклад, Bob)">
-        <input type="number" id="amount" placeholder="Сума (наприклад, 50)">
-        <button onclick="createTransaction()">Відправити</button>
-        
-        <h3>Журнал транзакцій:</h3>
-        <div class="ledger" id="ledger"></div>
+  <div class="container">
+    <h1>DEXP Token</h1>
+    <h2>Мережа: TON</h2>
+    <div class="image">
+      <img src="https://i.postimg.cc/YSPq5Dp1/1000191221.png" alt="DEXP Token">
     </div>
+    <p><strong>Адреса смарт-контракту:</strong></p>
+    <div class="address" id="contract-address">EQCyIM8AlyvtsoIplSrfGUSiqUrFTAYnF6Fv_8JqEv0oU4G0</div>
+    <button onclick="copyAddress()">Скопіювати адресу</button>
+    <h2>Про токен</h2>
+    <p>DEXP – це токен на базі блокчейну TON, який використовується для винагороди користувачів у Telegram-грі. Цей токен є частиною інноваційної екосистеми.</p>
+  </div>
+  <footer>
+    &copy; 2024 DEXP. Усі права захищені.
+  </footer>
 
-    <script>
-        const ledger = [];
-
-        function createTransaction() {
-            const sender = document.getElementById('sender').value;
-            const receiver = document.getElementById('receiver').value;
-            const amount = document.getElementById('amount').value;
-
-            if (!sender || !receiver || amount <= 0) {
-                alert("Будь ласка, введіть коректні дані.");
-                return;
-            }
-
-            const transaction = {
-                sender: sender,
-                receiver: receiver,
-                amount: Number(amount),
-                timestamp: new Date().toLocaleString()
-            };
-
-            ledger.push(transaction);
-            displayLedger();
-        }
-
-        function displayLedger() {
-            const ledgerDiv = document.getElementById('ledger');
-            ledgerDiv.innerHTML = '';
-
-            ledger.forEach((tx, index) => {
-                const txDiv = document.createElement('div');
-                txDiv.className = 'transaction';
-                txDiv.innerHTML = `
-                    <strong>#${index + 1}</strong> 
-                    Відправник: ${tx.sender} → Отримувач: ${tx.receiver} 
-                    <br>Сума: ${tx.amount} 
-                    <br><small>${tx.timestamp}</small>
-                `;
-                ledgerDiv.appendChild(txDiv);
-            });
-        }
-    </script>
+  <script>
+    function copyAddress() {
+      const address = document.getElementById('contract-address').innerText;
+      navigator.clipboard.writeText(address).then(() => {
+        alert('Адресу скопійовано!');
+      });
+    }
+  </script>
 </body>
 </html>
