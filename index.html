@@ -1,181 +1,165 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEXP Token - TON Network</title>
-  <style>
-    /* Загальні стилі */
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #000000, #FF8C00, #FFD700);
-      color: #fff;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEXP Game</title>
+    <style>
+        /* Вставляємо CSS безпосередньо в HTML файл */
 
-    .container {
-      width: 90%;
-      max-width: 800px;
-      padding: 30px;
-      background: rgba(0, 0, 0, 0.85);
-      border-radius: 20px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-      text-align: center;
-      overflow: hidden;
-      animation: fadeIn 1.5s ease;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
 
-    h1 {
-      font-size: 3rem;
-      color: #FFD700;
-      margin: 0;
-      animation: glow 2s infinite alternate;
-    }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
 
-    h2 {
-      font-size: 1.5rem;
-      color: #FF8C00;
-      margin: 20px 0;
-    }
+        header nav ul {
+            list-style: none;
+            padding: 0;
+        }
 
-    .description {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #ddd;
-      margin: 20px 0;
-    }
+        header nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
 
-    /* Секція з ціною */
-    .price-section {
-      margin: 30px 0;
-    }
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
 
-    .price {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #FFD700;
-      text-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
-      margin-bottom: 20px;
-    }
+        main {
+            padding: 20px;
+        }
 
-    .loading {
-      font-size: 1.5rem;
-      color: #888;
-    }
+        section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Кнопка оновлення */
-    .button {
-      display: inline-block;
-      background: linear-gradient(90deg, #FF8C00, #FFD700);
-      color: #000;
-      font-size: 1rem;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease;
-    }
+        section h2 {
+            margin-top: 0;
+        }
 
-    .button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-    }
+        button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
-    .button:active {
-      transform: translateY(1px);
-    }
-
-    /* Анімації */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
-      }
-      to {
-        text-shadow: 0 0 20px #FFD700, 0 0 30px #FF4500;
-      }
-    }
-
-    /* Додатковий футер */
-    footer {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #aaa;
-    }
-
-    footer a {
-      color: #FFD700;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>DEXP Token</h1>
-    <h2>Мережа: TON</h2>
-    <div class="description">
-      <p>DEXP – це токен, створений у блокчейні TON, який використовується для винагороди в інноваційних ігрових рішеннях.</p>
-      <p>Деталі про токен та його застосування можна знайти на офіційних платформах.</p>
-    </div>
-    <div class="price-section">
-      <div id="price" class="price">Ціна токена: $0.08</div>
-      <button class="button" onclick="fetchPrice()">Оновити ціну</button>
-    </div>
-  </div>
-  <footer>
-    &copy; 2024 DEXP. Усі права захищені. <a href="#">Політика конфіденційності</a>
-  </footer>
 
-  <script>
-    // Встановлюємо поточну ціну вручну
-    function fetchPrice() {
-      const priceElement = document.getElementById("price");
-      priceElement.innerText = "Оновлюється...";
-      
-      // Якщо потрібно отримати ціну через API, можна використовувати наступний код
-      /*
-      fetch("https://api.coingecko.com/api/v3/simple/price?ids=dexp&vs_currencies=usd")
-        .then(response => response.json())
-        .then(data => {
-          if (data.dexp && data.dexp.usd) {
-            priceElement.innerText = `Ціна токена: $${data.dexp.usd}`;
-          } else {
-            priceElement.innerText = "Ціна недоступна";
-          }
-        })
-        .catch(() => {
-          priceElement.innerText = "Помилка завантаження ціни";
-        });
-      */
+    <header>
+        <h1>Welcome to DEXP Game</h1>
+        <nav>
+            <ul>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#mining">Mining</a></li>
+                <li><a href="#vip">VIP</a></li>
+                <li><a href="#promo">Promo</a></li>
+            </ul>
+        </nav>
+    </header>
 
-      // Для тестування вручну:
-      priceElement.innerText = "Ціна токена: $0.08";
-    }
+    <main>
+        <!-- Shop Section -->
+        <section id="shop">
+            <h2>Shop</h2>
+            <p>Buy mining power or upgrade your VIP status here!</p>
+            <button onclick="buyPower()">Buy Power</button>
+        </section>
 
-    // Виклик функції при завантаженні сторінки
-    fetchPrice();
-  </script>
+        <!-- Leaderboard Section -->
+        <section id="leaderboard">
+            <h2>Leaderboard</h2>
+            <p>Top players:</p>
+            <ul id="leader-list">
+                <li>Player 1 - 5000 DEXP</li>
+                <li>Player 2 - 4000 DEXP</li>
+                <li>Player 3 - 3000 DEXP</li>
+            </ul>
+        </section>
+
+        <!-- Mining Section -->
+        <section id="mining">
+            <h2>Mining</h2>
+            <p>Your mining power:</p>
+            <div id="mining-power">1000 DEXP/hour</div>
+            <button onclick="startMining()">Start Mining</button>
+        </section>
+
+        <!-- VIP Section -->
+        <section id="vip">
+            <h2>VIP Status</h2>
+            <p>Your VIP Status: <span id="vip-status">None</span></p>
+            <button onclick="buyVIP()">Upgrade to VIP</button>
+        </section>
+
+        <!-- Promo Section -->
+        <section id="promo">
+            <h2>Promo Codes</h2>
+            <input type="text" id="promo-code" placeholder="Enter promo code">
+            <button onclick="redeemPromo()">Redeem</button>
+        </section>
+    </main>
+
+    <script>
+        // Вставляємо JavaScript для логіки гри
+
+        let miningPower = 1000;
+        let vipStatus = "None";
+
+        // Функція для початку майнінгу
+        function startMining() {
+            alert("Mining started with " + miningPower + " DEXP/hour!");
+            // Логіка майнінгу може бути складнішою
+        }
+
+        // Функція для покупки потужності
+        function buyPower() {
+            miningPower += 500;
+            document.getElementById("mining-power").textContent = miningPower + " DEXP/hour";
+            alert("You bought 500 DEXP/hour power!");
+        }
+
+        // Функція для оновлення VIP статусу
+        function buyVIP() {
+            vipStatus = "VIP";
+            document.getElementById("vip-status").textContent = vipStatus;
+            alert("You are now a VIP member!");
+        }
+
+        // Функція для введення промокоду
+        function redeemPromo() {
+            let code = document.getElementById("promo-code").value;
+            if (code === "DEXP2025") {
+                alert("Promo code redeemed! You earned 1000 DEXP.");
+            } else {
+                alert("Invalid promo code.");
+            }
+        }
+    </script>
+
 </body>
 </html>
