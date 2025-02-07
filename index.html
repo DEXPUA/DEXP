@@ -3,163 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEXP Game</title>
+    <title>DEXP Token</title>
     <style>
-        /* Вставляємо CSS безпосередньо в HTML файл */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            color: white;
+            background: linear-gradient(45deg, #ff0000, #ffcc00, #000000);
+            background-size: 300% 300%;
+            animation: gradientAnimation 10s ease infinite;
+            line-height: 1.6;
         }
 
         header {
-            background-color: #333;
-            color: white;
-            padding: 15px 0;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
         }
 
-        header nav ul {
+        header .logo h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
             list-style: none;
-            padding: 0;
         }
 
-        header nav ul li {
-            display: inline;
-            margin: 0 10px;
+        nav ul li {
+            margin-left: 20px;
         }
 
-        header nav ul li a {
+        nav ul li a {
             color: white;
             text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
         }
 
-        main {
-            padding: 20px;
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            margin-top: 50px;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .hero button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .hero button:hover {
+            background-color: #ffcc00;
         }
 
         section {
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 60px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            margin-top: 20px;
         }
 
         section h2 {
-            margin-top: 0;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
+        section p, section ul {
+            font-size: 1.2rem;
         }
 
-        button:hover {
-            background-color: #4cae4c;
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-top: 50px;
+        }
+
+        footer p a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+
+        footer p a:hover {
+            color: #ff0000;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>Welcome to DEXP Game</h1>
+        <div class="logo">
+            <h1>DEXP Token</h1>
+        </div>
         <nav>
             <ul>
-                <li><a href="#shop">Shop</a></li>
-                <li><a href="#leaderboard">Leaderboard</a></li>
-                <li><a href="#mining">Mining</a></li>
-                <li><a href="#vip">VIP</a></li>
-                <li><a href="#promo">Promo</a></li>
+                <li><a href="#about">Про DEXP</a></li>
+                <li><a href="#tokenomics">Токеноміка</a></li>
+                <li><a href="#roadmap">Дорожня карта</a></li>
+                <li><a href="#contact">Контакти</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <!-- Shop Section -->
-        <section id="shop">
-            <h2>Shop</h2>
-            <p>Buy mining power or upgrade your VIP status here!</p>
-            <button onclick="buyPower()">Buy Power</button>
-        </section>
+    <section id="about" class="hero">
+        <h2>Про DEXP</h2>
+        <p>DEXP — ваш ключ до TON-екосистеми. Приєднуйтесь до нас і станьте частиною майбутнього криптовалют.</p>
+        <button onclick="buyDEXP()">Придбати DEXP</button>
+    </section>
 
-        <!-- Leaderboard Section -->
-        <section id="leaderboard">
-            <h2>Leaderboard</h2>
-            <p>Top players:</p>
-            <ul id="leader-list">
-                <li>Player 1 - 5000 DEXP</li>
-                <li>Player 2 - 4000 DEXP</li>
-                <li>Player 3 - 3000 DEXP</li>
-            </ul>
-        </section>
+    <section id="tokenomics">
+        <h2>Токеноміка</h2>
+        <p>Загальний обсяг: 111,000,000 токенів. Спалено: 50,000,000 токенів.</p>
+        <div class="chart">
+            <p>Токеноміка та механізм розподілу</p>
+        </div>
+    </section>
 
-        <!-- Mining Section -->
-        <section id="mining">
-            <h2>Mining</h2>
-            <p>Your mining power:</p>
-            <div id="mining-power">1000 DEXP/hour</div>
-            <button onclick="startMining()">Start Mining</button>
-        </section>
+    <section id="roadmap">
+        <h2>Дорожня карта</h2>
+        <ul>
+            <li><strong>Q1 2024:</strong> Старт проєкту, запуск токену DEXP</li>
+            <li><strong>Q2 2025:</strong> Масштабування, лістинг на CEX</li>
+            <li><strong>Q3 2025:</strong> Розвиток екосистеми, нові партнерства</li>
+            <li><strong>2026:</strong> Глобальна експансія та залучення великих інвесторів</li>
+        </ul>
+    </section>
 
-        <!-- VIP Section -->
-        <section id="vip">
-            <h2>VIP Status</h2>
-            <p>Your VIP Status: <span id="vip-status">None</span></p>
-            <button onclick="buyVIP()">Upgrade to VIP</button>
-        </section>
-
-        <!-- Promo Section -->
-        <section id="promo">
-            <h2>Promo Codes</h2>
-            <input type="text" id="promo-code" placeholder="Enter promo code">
-            <button onclick="redeemPromo()">Redeem</button>
-        </section>
-    </main>
+    <footer id="contact">
+        <p>Контакти: <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
+    </footer>
 
     <script>
-        // Вставляємо JavaScript для логіки гри
-
-        let miningPower = 1000;
-        let vipStatus = "None";
-
-        // Функція для початку майнінгу
-        function startMining() {
-            alert("Mining started with " + miningPower + " DEXP/hour!");
-            // Логіка майнінгу може бути складнішою
-        }
-
-        // Функція для покупки потужності
-        function buyPower() {
-            miningPower += 500;
-            document.getElementById("mining-power").textContent = miningPower + " DEXP/hour";
-            alert("You bought 500 DEXP/hour power!");
-        }
-
-        // Функція для оновлення VIP статусу
-        function buyVIP() {
-            vipStatus = "VIP";
-            document.getElementById("vip-status").textContent = vipStatus;
-            alert("You are now a VIP member!");
-        }
-
-        // Функція для введення промокоду
-        function redeemPromo() {
-            let code = document.getElementById("promo-code").value;
-            if (code === "DEXP2025") {
-                alert("Promo code redeemed! You earned 1000 DEXP.");
-            } else {
-                alert("Invalid promo code.");
-            }
+        function buyDEXP() {
+            alert("Ви можете придбати DEXP через біржу або наш сайт.");
         }
     </script>
-
 </body>
 </html>
