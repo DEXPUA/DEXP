@@ -68,6 +68,77 @@
             background: #ffcc00;
         }
 
+        /* Анімація гамбургер-меню */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 30px;
+            height: 25px;
+        }
+
+        .menu-toggle div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .menu-toggle.open div:nth-child(1) {
+            transform: rotate(45deg);
+            position: relative;
+            top: 10px;
+        }
+
+        .menu-toggle.open div:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open div:nth-child(3) {
+            transform: rotate(-45deg);
+            position: relative;
+            top: -10px;
+        }
+
+        /* Адаптивне меню */
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffcc00;
+        }
+
+        .nav-links-mobile {
+            display: none;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .nav-links-mobile li {
+            margin: 15px 0;
+        }
+
+        /* Клас для відкритого меню */
+        .nav-links.open {
+            display: block;
+        }
+
         /* Інтерактивна анімація */
         .rocket-animation {
             position: absolute;
@@ -92,14 +163,32 @@
 </head>
 <body>
 
+    <!-- Меню -->
     <header class="flex justify-between items-center p-6">
         <h1 class="text-3xl font-bold text-white">DEXP Token</h1>
+
+        <!-- Гамбургер-меню -->
+        <div class="menu-toggle" id="menu-toggle">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <!-- Навігаційне меню -->
         <nav>
-            <ul class="flex space-x-6 text-white text-lg">
-                <li><a href="#about" class="hover:text-yellow-400">Про DEXP</a></li>
-                <li><a href="#tokenomics" class="hover:text-yellow-400">Токеноміка</a></li>
-                <li><a href="#roadmap" class="hover:text-yellow-400">Дорожня карта</a></li>
-                <li><a href="#contact" class="hover:text-yellow-400">Контакти</a></li>
+            <ul class="nav-links flex space-x-6 text-white text-lg" id="nav-links">
+                <li><a href="#about">Про DEXP</a></li>
+                <li><a href="#tokenomics">Токеноміка</a></li>
+                <li><a href="#roadmap">Дорожня карта</a></li>
+                <li><a href="#contact">Контакти</a></li>
+            </ul>
+
+            <!-- Мобільне меню -->
+            <ul class="nav-links-mobile" id="nav-links-mobile">
+                <li><a href="#about">Про DEXP</a></li>
+                <li><a href="#tokenomics">Токеноміка</a></li>
+                <li><a href="#roadmap">Дорожня карта</a></li>
+                <li><a href="#contact">Контакти</a></li>
             </ul>
         </nav>
     </header>
@@ -148,6 +237,17 @@
         function buyDEXP() {
             window.location.href = 'https://your-exchange-link.com';
         }
+
+        // Логіка для анімації гамбургер-меню
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const navLinksMobile = document.getElementById('nav-links-mobile');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+            navLinksMobile.classList.toggle('open');
+        });
     </script>
 
 </body>
