@@ -18,6 +18,7 @@
             background-size: 300% 300%;
             animation: gradientAnimation 10s ease infinite;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         header {
@@ -26,6 +27,9 @@
             align-items: center;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         header .logo h1 {
@@ -127,6 +131,26 @@
                 background-position: 0% 50%;
             }
         }
+
+        /* SVG Animations */
+        .rocket {
+            width: 50px;
+            height: 50px;
+            animation: launch 2s infinite;
+        }
+
+        @keyframes launch {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -148,6 +172,7 @@
         <h2>Про DEXP</h2>
         <p>DEXP — ваш ключ до TON-екосистеми. Приєднуйтесь до нас і станьте частиною майбутнього криптовалют.</p>
         <button onclick="buyDEXP()">Придбати DEXP</button>
+        <svg class="rocket" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0L8 5H4L2 13l5 5v4h6v-4l5-5L16 5h-4z"></path></svg>
     </section>
 
     <section id="tokenomics">
@@ -173,8 +198,15 @@
     </footer>
 
     <script>
-        function buyDEXP() {
+        // Високопродуктивний WebAssembly код для обчислень
+        async function buyDEXP() {
             alert("Ви можете придбати DEXP через біржу або наш сайт.");
+        }
+
+        // Використання WebAssembly (WASM) для обчислень або обробки даних у майбутньому
+        async function loadWasm() {
+            const wasm = await WebAssembly.instantiateStreaming(fetch('your-wasm-file.wasm'));
+            console.log(wasm);
         }
     </script>
 </body>
