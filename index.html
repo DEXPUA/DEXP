@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEXP Token – Аірдроп та інформація</title>
-  <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+  <title>DEXP Token – Аірдроп та Інформація</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS (через CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <!-- GSAP та ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -18,9 +20,10 @@
       padding: 0;
       overflow-x: hidden;
       scroll-behavior: smooth;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Poppins', sans-serif;
+      background: #111;
     }
-    /* Фонове полотно Three.js */
+    /* Фонове полотно для 3D-анімацій */
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -34,8 +37,9 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(0,0,0,0.7);
-      z-index: 50;
+      background: rgba(0, 0, 0, 0.85);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -43,18 +47,21 @@
     }
     header h1 {
       color: #fff;
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 1.75rem;
+      font-weight: 700;
     }
     .nav-links {
       display: flex;
       list-style: none;
     }
+    .nav-links li {
+      margin-left: 1.5rem;
+    }
     .nav-links li a {
       color: #fff;
-      margin-left: 1rem;
       text-decoration: none;
-      transition: color 0.3s;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
     .nav-links li a:hover {
       color: #ffcc00;
@@ -70,6 +77,7 @@
       width: 25px;
       background: #fff;
       margin-bottom: 4px;
+      border-radius: 2px;
       transition: all 0.3s ease;
     }
     /* Мобільне меню */
@@ -79,44 +87,51 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0, 0, 0, 0.95);
       display: none;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      z-index: 40;
+      align-items: center;
+      z-index: 90;
     }
-    .mobile-nav li {
+    .mobile-nav ul {
+      list-style: none;
+      text-align: center;
+    }
+    .mobile-nav ul li {
       margin: 1rem 0;
     }
-    .mobile-nav li a {
+    .mobile-nav ul li a {
       color: #fff;
       font-size: 1.5rem;
       text-decoration: none;
+      font-weight: 600;
     }
-    /* Секції */
+    /* Секції сайту */
     section {
       padding: 6rem 2rem 2rem;
       min-height: 100vh;
     }
     .content-section {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.7);
       padding: 2rem;
-      border-radius: 8px;
+      border-radius: 10px;
       color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     }
-    /* Головна сторінка (Аірдроп) */
+    /* Секція Аірдроп (головна сторінка) */
     #airdrop {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
       text-align: center;
     }
     #airdrop h2 {
       font-size: 3rem;
-      font-weight: bold;
+      font-weight: 700;
       margin-bottom: 1rem;
       color: #fff;
     }
@@ -124,7 +139,7 @@
       font-size: 1.25rem;
       max-width: 800px;
       margin-bottom: 2rem;
-      color: #fff;
+      color: #ddd;
     }
     #airdrop button {
       padding: 1rem 2rem;
@@ -134,17 +149,19 @@
       border-radius: 50px;
       color: #fff;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 10px rgba(255, 0, 0, 0.5);
     }
     #airdrop button:hover {
       background: #ffcc00;
     }
     /* Футер */
     footer {
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.85);
       padding: 2rem;
       text-align: center;
       color: #fff;
+      font-size: 0.9rem;
     }
     /* Адаптивність */
     @media (max-width: 768px) {
@@ -158,8 +175,9 @@
   </style>
 </head>
 <body>
-  <!-- Фонове полотно Three.js -->
+  <!-- Фонове полотно для 3D-анімацій -->
   <canvas id="bg-canvas"></canvas>
+
   <!-- Header з меню -->
   <header>
     <h1>DEXP Token</h1>
@@ -176,6 +194,7 @@
       <span></span>
     </div>
   </header>
+
   <!-- Мобільне меню -->
   <div class="mobile-nav" id="mobile-nav">
     <ul>
@@ -186,19 +205,23 @@
       <li><a href="#contact" class="mobile-link">Контакти</a></li>
     </ul>
   </div>
+
   <!-- Секція: Аірдроп (головна сторінка) -->
   <section id="airdrop" class="flex flex-col items-center justify-center">
     <h2>Аірдроп DEXP</h2>
-    <p>Отримайте безкоштовні токени DEXP! Приєднуйтесь до спільноти та отримайте бонуси. Кількість токенів обмежена!</p>
+    <p>Отримайте безкоштовні токени DEXP! Приєднуйтесь до нашої спільноти та отримайте бонуси. Кількість токенів обмежена!</p>
+    <!-- При кліку користувач перенаправляється до Telegram-каналу токена -->
     <button onclick="participateAirdrop()">Прийняти участь</button>
   </section>
+
   <!-- Секція: Про DEXP -->
   <section id="about">
     <div class="content-section">
       <h2>Про DEXP</h2>
-      <p>DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо сучасні технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.</p>
+      <p>DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.</p>
     </div>
   </section>
+
   <!-- Секція: Токеноміка -->
   <section id="tokenomics">
     <div class="content-section">
@@ -215,6 +238,7 @@
       </p>
     </div>
   </section>
+
   <!-- Секція: Дорожня карта -->
   <section id="roadmap">
     <div class="content-section">
@@ -227,6 +251,7 @@
       </p>
     </div>
   </section>
+
   <!-- Секція: Контакти -->
   <section id="contact">
     <div class="content-section">
@@ -234,55 +259,89 @@
       <p>Зв'яжіться з нами через Telegram: <a href="https://t.me/dexpua" target="_blank" class="text-blue-300 hover:text-blue-500">t.me/dexpua</a></p>
     </div>
   </section>
+
   <!-- Футер -->
   <footer>
     <p>&copy; 2025 DEXP Token. Усі права захищені.</p>
   </footer>
+
   <script>
     // Логіка для гамбургер-меню
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
     hamburger.addEventListener('click', () => {
-      mobileNav.classList.toggle('hidden');
-      gsap.from(mobileNav, { opacity: 0, duration: 0.5 });
+      if (mobileNav.style.display === 'flex') {
+        gsap.to(mobileNav, { duration: 0.5, opacity: 0, onComplete: () => { mobileNav.style.display = 'none'; } });
+      } else {
+        mobileNav.style.display = 'flex';
+        gsap.fromTo(mobileNav, { opacity: 0 }, { duration: 0.5, opacity: 1 });
+      }
     });
     document.querySelectorAll('.mobile-link').forEach(link => {
       link.addEventListener('click', () => {
-        mobileNav.classList.add('hidden');
+        gsap.to(mobileNav, { duration: 0.5, opacity: 0, onComplete: () => { mobileNav.style.display = 'none'; } });
       });
     });
+    // Функція для кнопки участі в аірдропі, що перенаправляє до Telegram-каналу
     function participateAirdrop() {
-      alert("Дякуємо за участь в аірдропі DEXP!");
+      window.location.href = 'https://t.me/dexpua';
     }
-    // Three.js: фонова анімація
-    let scene, camera, renderer, cube;
+    // Three.js 3D фон із анімованим торус-кнотом та частинковою системою
+    let scene, camera, renderer, torusKnot, particles;
     function initThreeJS() {
       scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 4;
       renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
-      const geometry = new THREE.BoxGeometry();
-      const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-      cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
+      // Анімований торус-кнот
+      const geometry = new THREE.TorusKnotGeometry(1, 0.3, 150, 20);
+      const material = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5, metalness: 0.5 });
+      torusKnot = new THREE.Mesh(geometry, material);
+      scene.add(torusKnot);
+      // Освітлення
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+      const pointLight = new THREE.PointLight(0xffffff, 1);
+      pointLight.position.set(5, 5, 5);
+      scene.add(pointLight);
+      // Частинкова система
+      const particlesGeometry = new THREE.BufferGeometry();
+      const particlesCount = 1500;
+      const positions = new Float32Array(particlesCount * 3);
+      for (let i = 0; i < particlesCount * 3; i++) {
+        positions[i] = (Math.random() - 0.5) * 25;
+      }
+      particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const particlesMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.06 });
+      particles = new THREE.Points(particlesGeometry, particlesMaterial);
+      scene.add(particles);
       animateThreeJS();
     }
     function animateThreeJS() {
       requestAnimationFrame(animateThreeJS);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      torusKnot.rotation.x += 0.005;
+      torusKnot.rotation.y += 0.01;
+      particles.rotation.y += 0.0008;
       renderer.render(scene, camera);
     }
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
     initThreeJS();
-    // GSAP анімації при скролі
+    // GSAP ScrollTrigger анімації для секцій
     gsap.utils.toArray('section').forEach(section => {
-      gsap.from(section, { opacity: 0, y: 50, duration: 1, scrollTrigger: { trigger: section, start: "top 80%" } });
+      gsap.from(section, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%"
+        }
+      });
     });
   </script>
 </body>
