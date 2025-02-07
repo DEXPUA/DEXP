@@ -4,120 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEXP Token</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Основні стилі */
         body {
-            font-family: Arial, sans-serif;
-            color: white;
             background: linear-gradient(45deg, #ff0000, #ffcc00, #000000);
             background-size: 300% 300%;
-            animation: gradientAnimation 10s ease infinite;
+            animation: gradientAnimation 15s ease infinite;
+            color: white;
+            font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header .logo h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #ffcc00;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-            background: rgba(0, 0, 0, 0.7);
-            margin-top: 50px;
-        }
-
-        .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-        }
-
-        .hero button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .hero button:hover {
-            background-color: #ffcc00;
-        }
-
-        section {
-            padding: 60px 20px;
-            background: rgba(0, 0, 0, 0.6);
-            margin-top: 20px;
-        }
-
-        section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        section p, section ul {
-            font-size: 1.2rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            background-color: rgba(0, 0, 0, 0.7);
-            margin-top: 50px;
-        }
-
-        footer p a {
-            color: #ffcc00;
-            text-decoration: none;
-        }
-
-        footer p a:hover {
-            color: #ff0000;
         }
 
         @keyframes gradientAnimation {
@@ -132,82 +29,126 @@
             }
         }
 
-        /* SVG Animations */
-        .rocket {
-            width: 50px;
-            height: 50px;
-            animation: launch 2s infinite;
+        /* Секція з текстом та кнопкою */
+        .hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
         }
 
-        @keyframes launch {
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: textGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
             0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
+                text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ffcc00;
             }
             100% {
-                transform: translateY(0);
+                text-shadow: 0 0 20px #ff0000, 0 0 40px #ffcc00, 0 0 60px #ffcc00;
             }
         }
 
+        .button {
+            padding: 15px 25px;
+            background: #ff0000;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .button:hover {
+            background: #ffcc00;
+        }
+
+        /* Інтерактивна анімація */
+        .rocket-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: url('rocket.svg') no-repeat center center;
+            background-size: contain;
+            animation: rocketMove 3s linear infinite;
+        }
+
+        @keyframes rocketMove {
+            0% {
+                transform: translate(-50%, 0);
+            }
+            100% {
+                transform: translate(-50%, -100vh);
+            }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>DEXP Token</h1>
-        </div>
+
+    <header class="flex justify-between items-center p-6">
+        <h1 class="text-3xl font-bold text-white">DEXP Token</h1>
         <nav>
-            <ul>
-                <li><a href="#about">Про DEXP</a></li>
-                <li><a href="#tokenomics">Токеноміка</a></li>
-                <li><a href="#roadmap">Дорожня карта</a></li>
-                <li><a href="#contact">Контакти</a></li>
+            <ul class="flex space-x-6 text-white text-lg">
+                <li><a href="#about" class="hover:text-yellow-400">Про DEXP</a></li>
+                <li><a href="#tokenomics" class="hover:text-yellow-400">Токеноміка</a></li>
+                <li><a href="#roadmap" class="hover:text-yellow-400">Дорожня карта</a></li>
+                <li><a href="#contact" class="hover:text-yellow-400">Контакти</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="about" class="hero">
-        <h2>Про DEXP</h2>
-        <p>DEXP — ваш ключ до TON-екосистеми. Приєднуйтесь до нас і станьте частиною майбутнього криптовалют.</p>
-        <button onclick="buyDEXP()">Придбати DEXP</button>
-        <svg class="rocket" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0L8 5H4L2 13l5 5v4h6v-4l5-5L16 5h-4z"></path></svg>
+    <section class="hero">
+        <div>
+            <h1>Придбати DEXP Token</h1>
+            <button class="button" onclick="buyDEXP()">Придбати зараз</button>
+        </div>
+        <div class="rocket-animation"></div>
     </section>
 
-    <section id="tokenomics">
-        <h2>Токеноміка</h2>
-        <p>Загальний обсяг: 111,000,000 токенів. Спалено: 50,000,000 токенів.</p>
-        <div class="chart">
-            <p>Токеноміка та механізм розподілу</p>
+    <section id="about" class="bg-black py-16 px-4">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl mb-8">Про DEXP</h2>
+            <p class="text-xl">DEXP – це токен для майбутнього криптовалютного світу. Разом ми розвиваємо екосистему.</p>
         </div>
     </section>
 
-    <section id="roadmap">
-        <h2>Дорожня карта</h2>
-        <ul>
-            <li><strong>Q1 2024:</strong> Старт проєкту, запуск токену DEXP</li>
-            <li><strong>Q2 2025:</strong> Масштабування, лістинг на CEX</li>
-            <li><strong>Q3 2025:</strong> Розвиток екосистеми, нові партнерства</li>
-            <li><strong>2026:</strong> Глобальна експансія та залучення великих інвесторів</li>
-        </ul>
+    <section id="tokenomics" class="py-16 px-4 bg-gradient-to-b from-red-500 to-yellow-500">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl mb-8">Токеноміка</h2>
+            <p class="text-xl">Загальний обсяг: 111,000,000 токенів. Спалено: 50,000,000 токенів.</p>
+        </div>
     </section>
 
-    <footer id="contact">
-        <p>Контакти: <a href="https://t.me/dexpua" target="_blank">Telegram</a></p>
+    <section id="roadmap" class="py-16 px-4 bg-black">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl mb-8">Дорожня карта</h2>
+            <ul class="text-xl">
+                <li><strong>Q1 2024:</strong> Старт проєкту, запуск токену DEXP</li>
+                <li><strong>Q2 2025:</strong> Масштабування, лістинг на CEX</li>
+                <li><strong>Q3 2025:</strong> Розвиток екосистеми, нові партнерства</li>
+                <li><strong>2026:</strong> Глобальна експансія та залучення великих інвесторів</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto text-center">
+            <p>Контакти: <a href="https://t.me/dexpua" class="hover:text-yellow-400" target="_blank">Telegram</a></p>
+        </div>
     </footer>
 
     <script>
-        // Високопродуктивний WebAssembly код для обчислень
-        async function buyDEXP() {
-            alert("Ви можете придбати DEXP через біржу або наш сайт.");
-        }
-
-        // Використання WebAssembly (WASM) для обчислень або обробки даних у майбутньому
-        async function loadWasm() {
-            const wasm = await WebAssembly.instantiateStreaming(fetch('your-wasm-file.wasm'));
-            console.log(wasm);
+        function buyDEXP() {
+            window.location.href = 'https://your-exchange-link.com';
         }
     </script>
+
 </body>
 </html>
