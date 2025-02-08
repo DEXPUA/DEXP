@@ -37,7 +37,6 @@
       position: fixed;
       top: 0;
       width: 100%;
-      /* Покращений дизайн: градієнтний фон замість суто чорного */
       background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.95) 100%);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
       z-index: 100;
@@ -66,6 +65,23 @@
     }
     .nav-links li a:hover {
       color: #ffcc00;
+    }
+    /* Language Switcher */
+    #language-switcher {
+      margin-left: 1.5rem;
+    }
+    .lang-btn {
+      padding: 0.5rem 0.75rem;
+      background: #333;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      transition: background 0.3s ease;
+    }
+    .lang-btn:hover {
+      background: #555;
     }
     /* Гамбургер-меню для мобільних */
     .hamburger {
@@ -179,55 +195,69 @@
   <!-- Фонове полотно для 3D-анімацій -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- Header з меню -->
+  <!-- Header з меню та перемикачем мови -->
   <header>
-    <h1>DEXP Token</h1>
-    <nav class="nav-links">
-      <li><a href="#airdrop">Аірдроп</a></li>
-      <li><a href="#about">Про DEXP</a></li>
-      <li><a href="#tokenomics">Токеноміка</a></li>
-      <li><a href="#roadmap">Дорожня карта</a></li>
-      <li><a href="#contact">Контакти</a></li>
-    </nav>
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="flex items-center">
+      <h1 id="title" data-key="title">DEXP Token</h1>
+      <nav class="nav-links ml-4">
+        <li><a href="#airdrop" class="nav-item" data-key="nav_airdrop">Аірдроп</a></li>
+        <li><a href="#about" class="nav-item" data-key="nav_about">Про DEXP</a></li>
+        <li><a href="#tokenomics" class="nav-item" data-key="nav_tokenomics">Токеноміка</a></li>
+        <li><a href="#roadmap" class="nav-item" data-key="nav_roadmap">Дорожня карта</a></li>
+        <li><a href="#contact" class="nav-item" data-key="nav_contact">Контакти</a></li>
+      </nav>
+    </div>
+    <div class="flex items-center">
+      <!-- Перемикач мов -->
+      <div id="language-switcher">
+        <button onclick="setLanguage('ua')" class="lang-btn">UA</button>
+        <button onclick="setLanguage('en')" class="lang-btn">EN</button>
+      </div>
+      <!-- Гамбургер-меню -->
+      <div class="hamburger ml-4" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </header>
 
   <!-- Мобільне меню -->
   <div class="mobile-nav" id="mobile-nav">
     <ul>
-      <li><a href="#airdrop" class="mobile-link">Аірдроп</a></li>
-      <li><a href="#about" class="mobile-link">Про DEXP</a></li>
-      <li><a href="#tokenomics" class="mobile-link">Токеноміка</a></li>
-      <li><a href="#roadmap" class="mobile-link">Дорожня карта</a></li>
-      <li><a href="#contact" class="mobile-link">Контакти</a></li>
+      <li><a href="#airdrop" class="mobile-link" data-key="nav_airdrop">Аірдроп</a></li>
+      <li><a href="#about" class="mobile-link" data-key="nav_about">Про DEXP</a></li>
+      <li><a href="#tokenomics" class="mobile-link" data-key="nav_tokenomics">Токеноміка</a></li>
+      <li><a href="#roadmap" class="mobile-link" data-key="nav_roadmap">Дорожня карта</a></li>
+      <li><a href="#contact" class="mobile-link" data-key="nav_contact">Контакти</a></li>
     </ul>
   </div>
 
   <!-- Секція: Аірдроп (головна сторінка) -->
   <section id="airdrop" class="flex flex-col items-center justify-center">
-    <h2>Аірдроп DEXP</h2>
-    <p>Отримайте безкоштовні токени DEXP! Приєднуйтесь до нашої спільноти та отримайте бонуси. Кількість токенів обмежена!</p>
-    <!-- При кліку користувач перенаправляється до Telegram-каналу токена -->
-    <button onclick="participateAirdrop()">Прийняти участь</button>
+    <h2 data-key="section_airdrop_heading">Аірдроп DEXP</h2>
+    <p data-key="section_airdrop_text">
+      Отримайте безкоштовні токени DEXP! Приєднуйтесь до нашої спільноти та отримайте бонуси. Кількість токенів обмежена!
+    </p>
+    <!-- Кнопка участі в аірдропі -->
+    <button onclick="participateAirdrop()" data-key="airdrop_button">Прийняти участь</button>
   </section>
 
   <!-- Секція: Про DEXP -->
   <section id="about">
     <div class="content-section">
-      <h2>Про DEXP</h2>
-      <p>DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.</p>
+      <h2 data-key="section_about_heading">Про DEXP</h2>
+      <p data-key="section_about_text">
+        DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.
+      </p>
     </div>
   </section>
 
   <!-- Секція: Токеноміка -->
   <section id="tokenomics">
     <div class="content-section">
-      <h2>Токеноміка</h2>
-      <p>
+      <h2 data-key="section_tokenomics_heading">Токеноміка</h2>
+      <p data-key="section_tokenomics_text">
         Загальний обсяг: 111,000,000 токенів.<br>
         Спалено: 50,000,000 токенів.<br><br>
         - Команда: 6,000,000 (5.4%)<br>
@@ -243,8 +273,8 @@
   <!-- Секція: Дорожня карта -->
   <section id="roadmap">
     <div class="content-section">
-      <h2>Дорожня карта</h2>
-      <p>
+      <h2 data-key="section_roadmap_heading">Дорожня карта</h2>
+      <p data-key="section_roadmap_text">
         <strong>Q1 2024:</strong> Старт проєкту, запуск токену DEXP, відкриття Telegram-каналу.<br>
         <strong>Q2 2025:</strong> Аірдроп, збільшення ліквідності, лістинг на агрегаторах.<br>
         <strong>Q3 2025:</strong> Розширення екосистеми, партнерські програми, інтеграції.<br>
@@ -256,14 +286,17 @@
   <!-- Секція: Контакти -->
   <section id="contact">
     <div class="content-section">
-      <h2>Контакти</h2>
-      <p>Зв'яжіться з нами через Telegram: <a href="https://t.me/dexpua" target="_blank" class="text-blue-300 hover:text-blue-500">t.me/dexpua</a></p>
+      <h2 data-key="section_contact_heading">Контакти</h2>
+      <p>
+        <span data-key="section_contact_text">Зв'яжіться з нами через Telegram: </span>
+        <a href="https://t.me/dexpua" target="_blank" class="text-blue-300 hover:text-blue-500">@dexpua</a>
+      </p>
     </div>
   </section>
 
   <!-- Футер -->
   <footer>
-    <p>&copy; 2025 DEXP Token. Усі права захищені.</p>
+    <p data-key="footer_text">&copy; 2025 DEXP Token. Усі права захищені.</p>
   </footer>
 
   <script>
@@ -283,13 +316,14 @@
         gsap.to(mobileNav, { duration: 0.5, opacity: 0, onComplete: () => { mobileNav.style.display = 'none'; } });
       });
     });
+
     // Функція для кнопки участі в аірдропі, що перенаправляє до Telegram-каналу
     function participateAirdrop() {
       window.location.href = 'https://t.me/dexpua';
     }
 
-    // Three.js 3D фон із анімованим торус-кнотом, частинковою системою, обертальним кубом та коливаючоюся сферою
-    let scene, camera, renderer, torusKnot, particles, cube, sphere, sphereInitialY;
+    // --- Three.js 3D сцена ---
+    let scene, camera, renderer, torusKnot, particles, cube, sphere, sphereInitialY, letterD;
     function initThreeJS() {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -337,6 +371,37 @@
       sphereInitialY = sphere.position.y;
       scene.add(sphere);
       
+      // --- Додатковий 3D-об'єкт: анімована буква "D" ---
+      const fontLoader = new THREE.FontLoader();
+      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+        const textGeometry = new THREE.TextGeometry('D', {
+          font: font,
+          size: 1.5,
+          height: 0.3,
+          curveSegments: 12,
+          bevelEnabled: true,
+          bevelThickness: 0.05,
+          bevelSize: 0.05,
+          bevelOffset: 0,
+          bevelSegments: 5
+        });
+        textGeometry.center();
+        letterD = new THREE.Mesh(textGeometry, new THREE.MeshStandardMaterial({
+          color: 0xFFA500,
+          roughness: 0.5,
+          metalness: 0.5,
+          emissive: 0xFF8C00,
+          emissiveIntensity: 0.5
+        }));
+        letterD.position.set(0, 0, 0);
+        scene.add(letterD);
+
+        // Анімації букви D: масштабування, зрушення зліва та обертання
+        gsap.from(letterD.scale, { x: 0, y: 0, z: 0, duration: 1.5, ease: "back.out(1.7)" });
+        gsap.from(letterD.position, { x: -5, duration: 1.5, ease: "power2.out" });
+        gsap.from(letterD.rotation, { y: -Math.PI, duration: 1.5, ease: "power2.out" });
+      });
+      
       // GSAP паралакс-ефект для камери (невелике зміщення при скролі)
       gsap.to(camera.position, {
         scrollTrigger: {
@@ -364,6 +429,10 @@
       cube.rotation.y += 0.01;
       // Анімація сфери (вертикальне коливання)
       sphere.position.y = sphereInitialY + Math.sin(Date.now() * 0.001) * 0.5;
+      // Повільне обертання букви D, якщо вона завантажена
+      if(letterD) {
+        letterD.rotation.y += 0.005;
+      }
       renderer.render(scene, camera);
     }
     window.addEventListener('resize', () => {
@@ -419,16 +488,76 @@
         gsap.to(link, { scale: 1, duration: 0.2, ease: "power1.out" });
       });
     });
-  </script>
-  
-  <!-- Telegram Mini Apps Analytics -->
-  <script src="https://cdn.jsdelivr.net/npm/telegram-mini-apps-analytics@latest/dist/index.umd.min.js"></script>
-  <script>
-    // Ініціалізація Telegram Mini Apps Analytics (заміни 'YOUR_TELEGRAM_BOT_TOKEN' на свій токен)
-    TelegramMiniAppsAnalytics.init({
-      token: '7785515989:AAEDv0bfE32AJ8dZgcwdz1V1Vy50it67HRM'
-      // За бажанням можна додати додаткові налаштування
-    });
-  </script>
-</body>
-</html>
+
+    // --- Language Switching Logic ---
+    const translations = {
+      "title": {
+        "ua": "DEXP Token",
+        "en": "DEXP Token"
+      },
+      "nav_airdrop": {
+        "ua": "Аірдроп",
+        "en": "Airdrop"
+      },
+      "nav_about": {
+        "ua": "Про DEXP",
+        "en": "About DEXP"
+      },
+      "nav_tokenomics": {
+        "ua": "Токеноміка",
+        "en": "Tokenomics"
+      },
+      "nav_roadmap": {
+        "ua": "Дорожня карта",
+        "en": "Roadmap"
+      },
+      "nav_contact": {
+        "ua": "Контакти",
+        "en": "Contact"
+      },
+      "section_airdrop_heading": {
+        "ua": "Аірдроп DEXP",
+        "en": "DEXP Airdrop"
+      },
+      "section_airdrop_text": {
+        "ua": "Отримайте безкоштовні токени DEXP! Приєднуйтесь до нашої спільноти та отримайте бонуси. Кількість токенів обмежена!",
+        "en": "Get free DEXP tokens! Join our community and receive bonuses. Tokens are limited!"
+      },
+      "airdrop_button": {
+        "ua": "Прийняти участь",
+        "en": "Participate"
+      },
+      "section_about_heading": {
+        "ua": "Про DEXP",
+        "en": "About DEXP"
+      },
+      "section_about_text": {
+        "ua": "DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.",
+        "en": "DEXP is a revolutionary token integrated into the TON ecosystem. We use advanced technologies to provide innovation, security, and high performance for our community."
+      },
+      "section_tokenomics_heading": {
+        "ua": "Токеноміка",
+        "en": "Tokenomics"
+      },
+      "section_tokenomics_text": {
+        "ua": "Загальний обсяг: 111,000,000 токенів.<br>Спалено: 50,000,000 токенів.<br><br>- Команда: 6,000,000 (5.4%)<br>- Ліквідність: 10,000,000 (9%)<br>- Резерв: 5,000,000 (4.5%)<br>- Маркетинг: 11,100,000 (10%)<br>- Інвестори: 16,650,000 (15%)<br>- Стейкінг: 16,650,000 (15%)",
+        "en": "Total supply: 111,000,000 tokens.<br>Burned: 50,000,000 tokens.<br><br>- Team: 6,000,000 (5.4%)<br>- Liquidity: 10,000,000 (9%)<br>- Reserve: 5,000,000 (4.5%)<br>- Marketing: 11,100,000 (10%)<br>- Investors: 16,650,000 (15%)<br>- Staking: 16,650,000 (15%)"
+      },
+      "section_roadmap_heading": {
+        "ua": "Дорожня карта",
+        "en": "Roadmap"
+      },
+      "section_roadmap_text": {
+        "ua": "<strong>Q1 2024:</strong> Старт проєкту, запуск токену DEXP, відкриття Telegram-каналу.<br><strong>Q2 2025:</strong> Аірдроп, збільшення ліквідності, лістинг на агрегаторах.<br><strong>Q3 2025:</strong> Розширення екосистеми, партнерські програми, інтеграції.<br><strong>2026:</strong> Глобальна експансія, інтеграція з Web3 сервісами.",
+        "en": "<strong>Q1 2024:</strong> Project launch, DEXP token release, Telegram channel launch.<br><strong>Q2 2025:</strong> Airdrop, liquidity boost, listing on aggregators.<br><strong>Q3 2025:</strong> Ecosystem expansion, partnership programs, integrations.<br><strong>2026:</strong> Global expansion, integration with Web3 services."
+      },
+      "section_contact_heading": {
+        "ua": "Контакти",
+        "en": "Contact"
+      },
+      "section_contact_text": {
+        "ua": "Зв'яжіться з нами через Telegram: ",
+        "en": "Contact us via Telegram: "
+      },
+      "footer_text": {
+       
