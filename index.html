@@ -50,13 +50,13 @@
       height: 100%;
       display: block;
     }
-    /* Header та меню */
+    /* Header */
     header {
       position: fixed;
       top: 0;
       width: 100%;
       background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.95) 100%);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
       z-index: 100;
       display: flex;
       justify-content: space-between;
@@ -122,7 +122,7 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(0,0,0,0.95);
       display: none;
       flex-direction: column;
       justify-content: center;
@@ -150,11 +150,11 @@
     .content-section {
       max-width: 900px;
       margin: 0 auto;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0,0,0,0.7);
       padding: 2rem;
       border-radius: 10px;
       color: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
     /* Секція Аірдроп */
     #airdrop {
@@ -185,27 +185,22 @@
       color: #fff;
       cursor: pointer;
       transition: background 0.3s ease;
-      box-shadow: 0 4px 10px rgba(255, 0, 0, 0.5);
+      box-shadow: 0 4px 10px rgba(255,0,0,0.5);
     }
     #airdrop button:hover {
       background: #ffcc00;
     }
     /* Футер */
     footer {
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0,0,0,0.85);
       padding: 2rem;
       text-align: center;
       color: #fff;
       font-size: 0.9rem;
     }
-    /* Адаптивність */
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      .hamburger {
-        display: flex;
-      }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
     }
   </style>
 </head>
@@ -215,7 +210,7 @@
     <canvas id="splash-canvas"></canvas>
   </div>
 
-  <!-- Основне фонове полотно для 3D-сцени -->
+  <!-- Основна 3D-сцена (фон) -->
   <canvas id="bg-canvas"></canvas>
 
   <!-- Header -->
@@ -254,7 +249,7 @@
     </ul>
   </div>
 
-  <!-- Секції сайту -->
+  <!-- Основний контент -->
   <section id="airdrop" class="flex flex-col items-center justify-center">
     <h2 data-key="section_airdrop_heading">Аірдроп DEXP</h2>
     <p data-key="section_airdrop_text">
@@ -316,7 +311,6 @@
 
   <!-- Скрипти -->
   <script>
-    /* --------------------- */
     /* Меню та мобільне меню */
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
@@ -333,7 +327,6 @@
         gsap.to(mobileNav, { duration: 0.5, opacity: 0, onComplete: () => { mobileNav.style.display = 'none'; } });
       });
     });
-
     function participateAirdrop() {
       window.location.href = 'https://t.me/dexpua';
     }
@@ -348,7 +341,7 @@
       renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       
-      // Торос-кнот
+      // Торус-кнот
       const torusGeometry = new THREE.TorusKnotGeometry(1, 0.3, 150, 20);
       const torusMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5, metalness: 0.5 });
       torusKnot = new THREE.Mesh(torusGeometry, torusMaterial);
@@ -358,7 +351,7 @@
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
       scene.add(ambientLight);
       const pointLight = new THREE.PointLight(0xffffff, 1);
-      pointLight.position.set(5, 5, 5);
+      pointLight.position.set(5,5,5);
       scene.add(pointLight);
       
       // Частинки
@@ -366,25 +359,25 @@
       const particlesCount = 1500;
       const positions = new Float32Array(particlesCount * 3);
       for (let i = 0; i < particlesCount * 3; i++) {
-        positions[i] = (Math.random() - 0.5) * 25;
+        positions[i] = (Math.random()-0.5)*25;
       }
       particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       const particlesMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.06 });
       particles = new THREE.Points(particlesGeometry, particlesMaterial);
       scene.add(particles);
       
-      // Обертальний куб
-      const cubeGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+      // Куб
+      const cubeGeometry = new THREE.BoxGeometry(0.8,0.8,0.8);
       const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, roughness: 0.6, metalness: 0.4 });
       cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-      cube.position.set(-2, 1, 0);
+      cube.position.set(-2,1,0);
       scene.add(cube);
       
-      // Коливаючася сфера
-      const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+      // Сфера
+      const sphereGeometry = new THREE.SphereGeometry(0.5,32,32);
       const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.7, metalness: 0.3 });
       sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-      sphere.position.set(2, -1, 0);
+      sphere.position.set(2,-1,0);
       sphereInitialY = sphere.position.y;
       scene.add(sphere);
       
@@ -410,7 +403,7 @@
       particles.rotation.y += 0.0008;
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
-      sphere.position.y = sphereInitialY + Math.sin(Date.now() * 0.001) * 0.5;
+      sphere.position.y = sphereInitialY + Math.sin(Date.now()*0.001)*0.5;
       renderer.render(scene, camera);
     }
     window.addEventListener('resize', () => {
@@ -420,8 +413,10 @@
     });
 
     /* --------------------- */
-    /* Спліш-сцена (Launch Scene) з анімованою буквою D */
+    /* Спліш-сцена з анімованою буквою D, яка розбивається на фрагменти та збирається у DEXP */
     let splashScene, splashCamera, splashRenderer, letterD;
+    let fragments = []; // масив для фрагментів
+    const fragmentCount = 50; // кількість фрагментів (можна коригувати)
     function initSplashScene() {
       splashScene = new THREE.Scene();
       splashCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -429,7 +424,7 @@
       splashRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('splash-canvas'), alpha: true });
       splashRenderer.setSize(window.innerWidth, window.innerHeight);
       
-      // Завантаження шрифту та створення букви D
+      // Завантаження шрифту для букви D
       const fontLoader = new THREE.FontLoader();
       fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
         const textGeometry = new THREE.TextGeometry('D', {
@@ -451,33 +446,116 @@
           emissive: 0xFF8C00,
           emissiveIntensity: 0.5
         }));
-        // Початкові налаштування букви – масштаб 0, зсув зліва та обертання
-        letterD.scale.set(0,0,0);
-        letterD.position.set(-5, 0, 0);
-        letterD.rotation.y = -Math.PI;
+        letterD.position.set(0, 0, 0);
         splashScene.add(letterD);
         
-        // Запуск анімації букви D за допомогою GSAP
-        gsap.to(letterD.scale, { x: 1, y: 1, z: 1, duration: 1.5, ease: "back.out(1.7)" });
-        gsap.to(letterD.position, { x: 0, duration: 1.5, ease: "power2.out" });
-        gsap.to(letterD.rotation, { y: 0, duration: 1.5, ease: "power2.out", onComplete: endSplash });
+        // Анімація появи букви D
+        gsap.from(letterD.scale, { x: 0, y: 0, z: 0, duration: 1.5, ease: "back.out(1.7)" });
+        gsap.from(letterD.position, { x: -5, duration: 1.5, ease: "power2.out" });
+        gsap.from(letterD.rotation, { y: -Math.PI, duration: 1.5, ease: "power2.out", onComplete: explodeAndAssemble });
       });
       animateSplash();
     }
     function animateSplash() {
       requestAnimationFrame(animateSplash);
       if(letterD) {
-        // Повільне обертання для додаткової динаміки
         letterD.rotation.y += 0.005;
       }
       splashRenderer.render(splashScene, splashCamera);
     }
-    // Після завершення анімації букви D – приховуємо спліш-екран
+    // Функція для запуску анімації розбиття та збірки
+    function explodeAndAssemble() {
+      // Видаляємо букву D зі сцени
+      splashScene.remove(letterD);
+      // Створюємо фрагменти (маленькі кубики)
+      for(let i=0; i<fragmentCount; i++){
+        const fragGeo = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+        const fragMat = new THREE.MeshStandardMaterial({
+          color: 0xFFA500,
+          roughness: 0.5,
+          metalness: 0.5,
+          emissive: 0xFF8C00,
+          emissiveIntensity: 0.5
+        });
+        const frag = new THREE.Mesh(fragGeo, fragMat);
+        // Початкове положення – центр (де була буква D)
+        frag.position.set(0, 0, 0);
+        splashScene.add(frag);
+        fragments.push(frag);
+      }
+      // Фаза 1: розкидання фрагментів (експлозія)
+      fragments.forEach(frag => {
+        gsap.to(frag.position, {
+          duration: 1,
+          x: frag.position.x + (Math.random()-0.5)*4,
+          y: frag.position.y + (Math.random()-0.5)*4,
+          z: frag.position.z + (Math.random()-0.5)*4,
+          ease: "power2.out"
+        });
+      });
+      // Після затримки запускаємо фазу збірки у слово "DEXP"
+      gsap.delayedCall(1.5, assembleDEXP);
+    }
+    // Функція, що збирає фрагменти у слово "DEXP"
+    function assembleDEXP() {
+      const fontLoader = new THREE.FontLoader();
+      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+        const textGeom = new THREE.TextGeometry('DEXP', {
+          font: font,
+          size: 1,
+          height: 0.2,
+          curveSegments: 12,
+          bevelEnabled: true,
+          bevelThickness: 0.03,
+          bevelSize: 0.03,
+          bevelOffset: 0,
+          bevelSegments: 3
+        });
+        textGeom.center();
+        // Отримуємо позиції з геометрії "DEXP"
+        const posAttr = textGeom.getAttribute('position');
+        const totalPoints = posAttr.count;
+        // Визначаємо крок для вибору приблизно fragmentCount точок
+        const step = Math.max(1, Math.floor(totalPoints / fragmentCount));
+        const targetPositions = [];
+        for(let i = 0; i < totalPoints; i += step) {
+          const x = posAttr.getX(i);
+          const y = posAttr.getY(i);
+          const z = posAttr.getZ(i);
+          targetPositions.push(new THREE.Vector3(x, y, z));
+          if(targetPositions.length >= fragmentCount) break;
+        }
+        // Якщо кількість цільових позицій менша за кількість фрагментів – доповнюємо центром
+        while(targetPositions.length < fragmentCount) {
+          targetPositions.push(new THREE.Vector3(0, 0, 0));
+        }
+        // Анімація переміщення фрагментів у позиції цільового тексту
+        fragments.forEach((frag, i) => {
+          const target = targetPositions[i];
+          gsap.to(frag.position, {
+            duration: 1.5,
+            x: target.x,
+            y: target.y,
+            z: target.z,
+            ease: "power2.inOut"
+          });
+        });
+        // Після завершення збірки, через невелике затримання – завершуємо спліш-екран
+        gsap.delayedCall(2, endSplash);
+      });
+    }
+    // Плавне зникнення спліш-екрану
     function endSplash() {
-      gsap.to("#splash", { duration: 1, opacity: 0, onComplete: () => {
-        const splashDiv = document.getElementById("splash");
-        splashDiv.parentNode.removeChild(splashDiv);
-      }});
+      gsap.to("#splash", {
+        duration: 1,
+        opacity: 0,
+        onComplete: () => {
+          const splashDiv = document.getElementById("splash");
+          if(splashDiv && splashDiv.parentNode) {
+            splashDiv.parentNode.removeChild(splashDiv);
+          }
+        }
+      });
     }
 
     /* --------------------- */
@@ -498,44 +576,4 @@
       "section_about_heading": { "ua": "Про DEXP", "en": "About DEXP" },
       "section_about_text": {
         "ua": "DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.",
-        "en": "DEXP is a revolutionary token integrated into the TON ecosystem. We use advanced technologies to provide innovation, security, and high performance for our community."
-      },
-      "section_tokenomics_heading": { "ua": "Токеноміка", "en": "Tokenomics" },
-      "section_tokenomics_text": {
-        "ua": "Загальний обсяг: 111,000,000 токенів.<br>Спалено: 50,000,000 токенів.<br><br>- Команда: 6,000,000 (5.4%)<br>- Ліквідність: 10,000,000 (9%)<br>- Резерв: 5,000,000 (4.5%)<br>- Маркетинг: 11,100,000 (10%)<br>- Інвестори: 16,650,000 (15%)<br>- Стейкінг: 16,650,000 (15%)",
-        "en": "Total supply: 111,000,000 tokens.<br>Burned: 50,000,000 tokens.<br><br>- Team: 6,000,000 (5.4%)<br>- Liquidity: 10,000,000 (9%)<br>- Reserve: 5,000,000 (4.5%)<br>- Marketing: 11,100,000 (10%)<br>- Investors: 16,650,000 (15%)<br>- Staking: 16,650,000 (15%)"
-      },
-      "section_roadmap_heading": { "ua": "Дорожня карта", "en": "Roadmap" },
-      "section_roadmap_text": {
-        "ua": "<strong>Q1 2024:</strong> Старт проєкту, запуск токену DEXP, відкриття Telegram-каналу.<br><strong>Q2 2025:</strong> Аірдроп, збільшення ліквідності, лістинг на агрегаторах.<br><strong>Q3 2025:</strong> Розширення екосистеми, партнерські програми, інтеграції.<br><strong>2026:</strong> Глобальна експансія, інтеграція з Web3 сервісами.",
-        "en": "<strong>Q1 2024:</strong> Project launch, DEXP token release, Telegram channel launch.<br><strong>Q2 2025:</strong> Airdrop, liquidity boost, listing on aggregators.<br><strong>Q3 2025:</strong> Ecosystem expansion, partnership programs, integrations.<br><strong>2026:</strong> Global expansion, integration with Web3 services."
-      },
-      "section_contact_heading": { "ua": "Контакти", "en": "Contact" },
-      "section_contact_text": { "ua": "Зв'яжіться з нами через Telegram: ", "en": "Contact us via Telegram: " },
-      "footer_text": { "ua": "&copy; 2025 DEXP Token. Усі права захищені.", "en": "&copy; 2025 DEXP Token. All rights reserved." }
-    };
-    let currentLanguage = 'ua';
-    function setLanguage(lang) {
-      currentLanguage = lang;
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (translations[key] && translations[key][lang]) {
-          el.innerHTML = translations[key][lang];
-        }
-      });
-    }
-    setLanguage(currentLanguage);
-
-    /* --------------------- */
-    /* Ініціалізація: спочатку спліш-сцена, потім основна 3D-сцена */
-    window.addEventListener('load', () => {
-      initSplashScene();
-      initMainScene();
-    });
-  </script>
-  
-  <!-- Telegram Mini Apps Analytics -->
-  <script src="https://cdn.jsdelivr.net/npm/telegram-mini-apps-analytics@latest/dist/index.umd.min.js"></script>
-  <script>
-    TelegramMiniAppsAnalytics.init({
-      token: '7785515989:AAEDv0bfE32AJ8dZgcwdz1V1Vy50it67HRMeyJhcHBfbmFtZSI6IjQ1NjQ0NTY1VnYiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL2RleGxwX2JvdCIsImFwcF9kb21haW4iOiJodHRwczovL2RleHB1YS5naXRodWIuaW8vREVYUC8i
+        "en": "DEXP is a revo
