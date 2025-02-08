@@ -339,9 +339,12 @@
     let scene, camera, renderer, torusKnot, particles, cube, sphere, sphereInitialY;
     function initMainScene() {
       scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      // Додаємо фон, щоб об'єкти краще контрастували
+      scene.background = new THREE.Color(0x111111);
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       camera.position.z = 4;
       renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(window.innerWidth, window.innerHeight);
       
       // Торус-кнот
@@ -354,7 +357,7 @@
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
       scene.add(ambientLight);
       const pointLight = new THREE.PointLight(0xffffff, 1);
-      pointLight.position.set(5,5,5);
+      pointLight.position.set(5, 5, 5);
       scene.add(pointLight);
       
       // Частинки
@@ -362,7 +365,7 @@
       const particlesCount = 1500;
       const positions = new Float32Array(particlesCount * 3);
       for (let i = 0; i < particlesCount * 3; i++) {
-        positions[i] = (Math.random()-0.5)*25;
+        positions[i] = (Math.random() - 0.5) * 25;
       }
       particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       const particlesMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.06 });
@@ -370,17 +373,17 @@
       scene.add(particles);
       
       // Куб
-      const cubeGeometry = new THREE.BoxGeometry(0.8,0.8,0.8);
+      const cubeGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
       const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, roughness: 0.6, metalness: 0.4 });
       cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-      cube.position.set(-2,1,0);
+      cube.position.set(-2, 1, 0);
       scene.add(cube);
       
       // Сфера
-      const sphereGeometry = new THREE.SphereGeometry(0.5,32,32);
+      const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
       const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.7, metalness: 0.3 });
       sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-      sphere.position.set(2,-1,0);
+      sphere.position.set(2, -1, 0);
       sphereInitialY = sphere.position.y;
       scene.add(sphere);
       
@@ -406,11 +409,11 @@
       particles.rotation.y += 0.0008;
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
-      sphere.position.y = sphereInitialY + Math.sin(Date.now()*0.001)*0.5;
+      sphere.position.y = sphereInitialY + Math.sin(Date.now() * 0.001) * 0.5;
       renderer.render(scene, camera);
     }
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
@@ -422,41 +425,51 @@
     const fragmentCount = 50; // кількість фрагментів (можна коригувати)
     function initSplashScene() {
       splashScene = new THREE.Scene();
-      splashCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      // Додаємо фон для спліш-сцени
+      splashScene.background = new THREE.Color(0x111111);
+      splashCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       splashCamera.position.z = 4;
       splashRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('splash-canvas'), alpha: true });
+      splashRenderer.setPixelRatio(window.devicePixelRatio);
       splashRenderer.setSize(window.innerWidth, window.innerHeight);
       
       // Завантаження шрифту для букви D
       const fontLoader = new THREE.FontLoader();
-      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
-        const textGeometry = new THREE.TextGeometry('D', {
-          font: font,
-          size: 1.5,
-          height: 0.3,
-          curveSegments: 12,
-          bevelEnabled: true,
-          bevelThickness: 0.05,
-          bevelSize: 0.05,
-          bevelOffset: 0,
-          bevelSegments: 5
-        });
-        textGeometry.center();
-        letterD = new THREE.Mesh(textGeometry, new THREE.MeshStandardMaterial({
-          color: 0xFFA500,
-          roughness: 0.5,
-          metalness: 0.5,
-          emissive: 0xFF8C00,
-          emissiveIntensity: 0.5
-        }));
-        letterD.position.set(0, 0, 0);
-        splashScene.add(letterD);
-        
-        // Анімація появи букви D
-        gsap.from(letterD.scale, { x: 0, y: 0, z: 0, duration: 1.5, ease: "back.out(1.7)" });
-        gsap.from(letterD.position, { x: -5, duration: 1.5, ease: "power2.out" });
-        gsap.from(letterD.rotation, { y: -Math.PI, duration: 1.5, ease: "power2.out", onComplete: explodeAndAssemble });
-      });
+      fontLoader.load(
+        'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json',
+        function(font) {
+          const textGeometry = new THREE.TextGeometry('D', {
+            font: font,
+            size: 1.5,
+            height: 0.3,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 0.05,
+            bevelSize: 0.05,
+            bevelOffset: 0,
+            bevelSegments: 5
+          });
+          textGeometry.center();
+          letterD = new THREE.Mesh(textGeometry, new THREE.MeshStandardMaterial({
+            color: 0xFFA500,
+            roughness: 0.5,
+            metalness: 0.5,
+            emissive: 0xFF8C00,
+            emissiveIntensity: 0.5
+          }));
+          letterD.position.set(0, 0, 0);
+          splashScene.add(letterD);
+          
+          // Анімація появи букви D
+          gsap.from(letterD.scale, { x: 0, y: 0, z: 0, duration: 1.5, ease: "back.out(1.7)" });
+          gsap.from(letterD.position, { x: -5, duration: 1.5, ease: "power2.out" });
+          gsap.from(letterD.rotation, { y: -Math.PI, duration: 1.5, ease: "power2.out", onComplete: explodeAndAssemble });
+        },
+        undefined,
+        function(error) {
+          console.error('Помилка завантаження шрифту:', error);
+        }
+      );
       animateSplash();
     }
     function animateSplash() {
@@ -471,7 +484,7 @@
       // Видаляємо букву D зі сцени
       splashScene.remove(letterD);
       // Створюємо фрагменти (маленькі кубики)
-      for(let i = 0; i < fragmentCount; i++){
+      for (let i = 0; i < fragmentCount; i++){
         const fragGeo = new THREE.BoxGeometry(0.1, 0.1, 0.1);
         const fragMat = new THREE.MeshStandardMaterial({
           color: 0xFFA500,
@@ -490,9 +503,9 @@
       fragments.forEach(frag => {
         gsap.to(frag.position, {
           duration: 1,
-          x: frag.position.x + (Math.random()-0.5)*4,
-          y: frag.position.y + (Math.random()-0.5)*4,
-          z: frag.position.z + (Math.random()-0.5)*4,
+          x: frag.position.x + (Math.random() - 0.5) * 4,
+          y: frag.position.y + (Math.random() - 0.5) * 4,
+          z: frag.position.z + (Math.random() - 0.5) * 4,
           ease: "power2.out"
         });
       });
@@ -502,50 +515,57 @@
     // Функція, що збирає фрагменти у слово "DEXP"
     function assembleDEXP() {
       const fontLoader = new THREE.FontLoader();
-      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
-        const textGeom = new THREE.TextGeometry('DEXP', {
-          font: font,
-          size: 1,
-          height: 0.2,
-          curveSegments: 12,
-          bevelEnabled: true,
-          bevelThickness: 0.03,
-          bevelSize: 0.03,
-          bevelOffset: 0,
-          bevelSegments: 3
-        });
-        textGeom.center();
-        // Отримуємо позиції з геометрії "DEXP"
-        const posAttr = textGeom.getAttribute('position');
-        const totalPoints = posAttr.count;
-        // Визначаємо крок для вибору приблизно fragmentCount точок
-        const step = Math.max(1, Math.floor(totalPoints / fragmentCount));
-        const targetPositions = [];
-        for(let i = 0; i < totalPoints; i += step) {
-          const x = posAttr.getX(i);
-          const y = posAttr.getY(i);
-          const z = posAttr.getZ(i);
-          targetPositions.push(new THREE.Vector3(x, y, z));
-          if(targetPositions.length >= fragmentCount) break;
-        }
-        // Якщо кількість цільових позицій менша за кількість фрагментів – доповнюємо центром
-        while(targetPositions.length < fragmentCount) {
-          targetPositions.push(new THREE.Vector3(0, 0, 0));
-        }
-        // Анімація переміщення фрагментів у позиції цільового тексту
-        fragments.forEach((frag, i) => {
-          const target = targetPositions[i];
-          gsap.to(frag.position, {
-            duration: 1.5,
-            x: target.x,
-            y: target.y,
-            z: target.z,
-            ease: "power2.inOut"
+      fontLoader.load(
+        'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json',
+        function(font) {
+          const textGeom = new THREE.TextGeometry('DEXP', {
+            font: font,
+            size: 1,
+            height: 0.2,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 0.03,
+            bevelSize: 0.03,
+            bevelOffset: 0,
+            bevelSegments: 3
           });
-        });
-        // Після завершення збірки, через невелике затримання – завершуємо спліш-екран
-        gsap.delayedCall(2, endSplash);
-      });
+          textGeom.center();
+          // Отримуємо позиції з геометрії "DEXP"
+          const posAttr = textGeom.getAttribute('position');
+          const totalPoints = posAttr.count;
+          // Визначаємо крок для вибору приблизно fragmentCount точок
+          const step = Math.max(1, Math.floor(totalPoints / fragmentCount));
+          const targetPositions = [];
+          for (let i = 0; i < totalPoints; i += step) {
+            const x = posAttr.getX(i);
+            const y = posAttr.getY(i);
+            const z = posAttr.getZ(i);
+            targetPositions.push(new THREE.Vector3(x, y, z));
+            if (targetPositions.length >= fragmentCount) break;
+          }
+          // Якщо кількість цільових позицій менша за кількість фрагментів – доповнюємо центром
+          while (targetPositions.length < fragmentCount) {
+            targetPositions.push(new THREE.Vector3(0, 0, 0));
+          }
+          // Анімація переміщення фрагментів у позиції цільового тексту
+          fragments.forEach((frag, i) => {
+            const target = targetPositions[i];
+            gsap.to(frag.position, {
+              duration: 1.5,
+              x: target.x,
+              y: target.y,
+              z: target.z,
+              ease: "power2.inOut"
+            });
+          });
+          // Після завершення збірки, через невелике затримання – завершуємо спліш-екран
+          gsap.delayedCall(2, endSplash);
+        },
+        undefined,
+        function(error) {
+          console.error('Помилка завантаження шрифту (DEXP):', error);
+        }
+      );
     }
     // Плавне зникнення спліш-екрану
     function endSplash() {
@@ -554,7 +574,7 @@
         opacity: 0,
         onComplete: () => {
           const splashDiv = document.getElementById("splash");
-          if(splashDiv && splashDiv.parentNode) {
+          if (splashDiv && splashDiv.parentNode) {
             splashDiv.parentNode.removeChild(splashDiv);
           }
         }
@@ -567,15 +587,4 @@
       "title": { "ua": "DEXP Token", "en": "DEXP Token" },
       "nav_airdrop": { "ua": "Аірдроп", "en": "Airdrop" },
       "nav_about": { "ua": "Про DEXP", "en": "About DEXP" },
-      "nav_tokenomics": { "ua": "Токеноміка", "en": "Tokenomics" },
-      "nav_roadmap": { "ua": "Дорожня карта", "en": "Roadmap" },
-      "nav_contact": { "ua": "Контакти", "en": "Contact" },
-      "section_airdrop_heading": { "ua": "Аірдроп DEXP", "en": "DEXP Airdrop" },
-      "section_airdrop_text": {
-        "ua": "Отримайте безкоштовні токени DEXP! Приєднуйтесь до нашої спільноти та отримайте бонуси. Кількість токенів обмежена!",
-        "en": "Get free DEXP tokens! Join our community and receive bonuses. Tokens are limited!"
-      },
-      "airdrop_button": { "ua": "Прийняти участь", "en": "Participate" },
-      "section_about_heading": { "ua": "Про DEXP", "en": "About DEXP" },
-      "section_about_text": {
-        "ua": "DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології д
+      "nav_tokenomics": { "ua": "Токеноміка
