@@ -14,7 +14,7 @@
   <!-- Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
-    /* Глобальні стилі */
+    /* Загальні стилі */
     html, body {
       margin: 0;
       padding: 0;
@@ -23,7 +23,7 @@
       font-family: 'Poppins', sans-serif;
       background: #111;
     }
-    /* Фонове полотно для 3D-анімацій */
+    /* Основна 3D-сцена (фон) */
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -31,6 +31,24 @@
       width: 100%;
       height: 100%;
       z-index: -1;
+    }
+    /* Спліш-екран – покриває весь екран під час запуску */
+    #splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      z-index: 200;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #splash-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
     /* Header та меню */
     header {
@@ -66,9 +84,9 @@
     .nav-links li a:hover {
       color: #ffcc00;
     }
-    /* Language Switcher */
+    /* Перемикач мов – праворуч */
     #language-switcher {
-      margin-left: 1.5rem;
+      margin-right: 1rem;
     }
     .lang-btn {
       padding: 0.5rem 0.75rem;
@@ -83,7 +101,7 @@
     .lang-btn:hover {
       background: #555;
     }
-    /* Гамбургер-меню для мобільних */
+    /* Гамбургер-меню (для мобільних) */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -138,7 +156,7 @@
       color: #fff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     }
-    /* Секція Аірдроп (головна сторінка) */
+    /* Секція Аірдроп */
     #airdrop {
       display: flex;
       flex-direction: column;
@@ -192,10 +210,15 @@
   </style>
 </head>
 <body>
-  <!-- Фонове полотно для 3D-анімацій -->
+  <!-- Спліш-екран (Launch Scene) -->
+  <div id="splash">
+    <canvas id="splash-canvas"></canvas>
+  </div>
+
+  <!-- Основне фонове полотно для 3D-сцени -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- Header з меню та перемикачем мови -->
+  <!-- Header -->
   <header>
     <div class="flex items-center">
       <h1 id="title" data-key="title">DEXP Token</h1>
@@ -208,12 +231,10 @@
       </nav>
     </div>
     <div class="flex items-center">
-      <!-- Перемикач мов -->
       <div id="language-switcher">
         <button onclick="setLanguage('ua')" class="lang-btn">UA</button>
         <button onclick="setLanguage('en')" class="lang-btn">EN</button>
       </div>
-      <!-- Гамбургер-меню -->
       <div class="hamburger ml-4" id="hamburger">
         <span></span>
         <span></span>
@@ -233,17 +254,15 @@
     </ul>
   </div>
 
-  <!-- Секція: Аірдроп (головна сторінка) -->
+  <!-- Секції сайту -->
   <section id="airdrop" class="flex flex-col items-center justify-center">
     <h2 data-key="section_airdrop_heading">Аірдроп DEXP</h2>
     <p data-key="section_airdrop_text">
       Отримайте безкоштовні токени DEXP! Приєднуйтесь до нашої спільноти та отримайте бонуси. Кількість токенів обмежена!
     </p>
-    <!-- Кнопка участі в аірдропі -->
     <button onclick="participateAirdrop()" data-key="airdrop_button">Прийняти участь</button>
   </section>
 
-  <!-- Секція: Про DEXP -->
   <section id="about">
     <div class="content-section">
       <h2 data-key="section_about_heading">Про DEXP</h2>
@@ -253,7 +272,6 @@
     </div>
   </section>
 
-  <!-- Секція: Токеноміка -->
   <section id="tokenomics">
     <div class="content-section">
       <h2 data-key="section_tokenomics_heading">Токеноміка</h2>
@@ -270,7 +288,6 @@
     </div>
   </section>
 
-  <!-- Секція: Дорожня карта -->
   <section id="roadmap">
     <div class="content-section">
       <h2 data-key="section_roadmap_heading">Дорожня карта</h2>
@@ -283,7 +300,6 @@
     </div>
   </section>
 
-  <!-- Секція: Контакти -->
   <section id="contact">
     <div class="content-section">
       <h2 data-key="section_contact_heading">Контакти</h2>
@@ -294,13 +310,14 @@
     </div>
   </section>
 
-  <!-- Футер -->
   <footer>
     <p data-key="footer_text">&copy; 2025 DEXP Token. Усі права захищені.</p>
   </footer>
 
+  <!-- Скрипти -->
   <script>
-    // Логіка для гамбургер-меню
+    /* --------------------- */
+    /* Меню та мобільне меню */
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
     hamburger.addEventListener('click', () => {
@@ -317,21 +334,21 @@
       });
     });
 
-    // Функція для кнопки участі в аірдропі, що перенаправляє до Telegram-каналу
     function participateAirdrop() {
       window.location.href = 'https://t.me/dexpua';
     }
 
-    // --- Three.js 3D сцена ---
-    let scene, camera, renderer, torusKnot, particles, cube, sphere, sphereInitialY, letterD;
-    function initThreeJS() {
+    /* --------------------- */
+    /* Основна 3D-сцена для фону */
+    let scene, camera, renderer, torusKnot, particles, cube, sphere, sphereInitialY;
+    function initMainScene() {
       scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
       camera.position.z = 4;
       renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       
-      // Анімований торус-кнот
+      // Торос-кнот
       const torusGeometry = new THREE.TorusKnotGeometry(1, 0.3, 150, 20);
       const torusMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5, metalness: 0.5 });
       torusKnot = new THREE.Mesh(torusGeometry, torusMaterial);
@@ -344,7 +361,7 @@
       pointLight.position.set(5, 5, 5);
       scene.add(pointLight);
       
-      // Частинкова система
+      // Частинки
       const particlesGeometry = new THREE.BufferGeometry();
       const particlesCount = 1500;
       const positions = new Float32Array(particlesCount * 3);
@@ -356,14 +373,14 @@
       particles = new THREE.Points(particlesGeometry, particlesMaterial);
       scene.add(particles);
       
-      // Додатковий 3D-об'єкт: обертальний куб
+      // Обертальний куб
       const cubeGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
       const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, roughness: 0.6, metalness: 0.4 });
       cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
       cube.position.set(-2, 1, 0);
       scene.add(cube);
       
-      // Додатковий 3D-об'єкт: плавно коливаючася сфера
+      // Коливаючася сфера
       const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
       const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.7, metalness: 0.3 });
       sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
@@ -371,7 +388,48 @@
       sphereInitialY = sphere.position.y;
       scene.add(sphere);
       
-      // --- Додатковий 3D-об'єкт: анімована буква "D" ---
+      // Паралакс для камери
+      gsap.to(camera.position, {
+        scrollTrigger: {
+          trigger: document.body,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true
+        },
+        x: 0.5,
+        y: 0.5,
+        ease: "none"
+      });
+      
+      animateMainScene();
+    }
+    function animateMainScene() {
+      requestAnimationFrame(animateMainScene);
+      torusKnot.rotation.x += 0.005;
+      torusKnot.rotation.y += 0.01;
+      particles.rotation.y += 0.0008;
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      sphere.position.y = sphereInitialY + Math.sin(Date.now() * 0.001) * 0.5;
+      renderer.render(scene, camera);
+    }
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* --------------------- */
+    /* Спліш-сцена (Launch Scene) з анімованою буквою D */
+    let splashScene, splashCamera, splashRenderer, letterD;
+    function initSplashScene() {
+      splashScene = new THREE.Scene();
+      splashCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      splashCamera.position.z = 4;
+      splashRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('splash-canvas'), alpha: true });
+      splashRenderer.setSize(window.innerWidth, window.innerHeight);
+      
+      // Завантаження шрифту та створення букви D
       const fontLoader = new THREE.FontLoader();
       fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
         const textGeometry = new THREE.TextGeometry('D', {
@@ -393,171 +451,91 @@
           emissive: 0xFF8C00,
           emissiveIntensity: 0.5
         }));
-        letterD.position.set(0, 0, 0);
-        scene.add(letterD);
-
-        // Анімації букви D: масштабування, зрушення зліва та обертання
-        gsap.from(letterD.scale, { x: 0, y: 0, z: 0, duration: 1.5, ease: "back.out(1.7)" });
-        gsap.from(letterD.position, { x: -5, duration: 1.5, ease: "power2.out" });
-        gsap.from(letterD.rotation, { y: -Math.PI, duration: 1.5, ease: "power2.out" });
+        // Початкові налаштування букви – масштаб 0, зсув зліва та обертання
+        letterD.scale.set(0,0,0);
+        letterD.position.set(-5, 0, 0);
+        letterD.rotation.y = -Math.PI;
+        splashScene.add(letterD);
+        
+        // Запуск анімації букви D за допомогою GSAP
+        gsap.to(letterD.scale, { x: 1, y: 1, z: 1, duration: 1.5, ease: "back.out(1.7)" });
+        gsap.to(letterD.position, { x: 0, duration: 1.5, ease: "power2.out" });
+        gsap.to(letterD.rotation, { y: 0, duration: 1.5, ease: "power2.out", onComplete: endSplash });
       });
-      
-      // GSAP паралакс-ефект для камери (невелике зміщення при скролі)
-      gsap.to(camera.position, {
-        scrollTrigger: {
-          trigger: document.body,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true
-        },
-        x: 0.5,
-        y: 0.5,
-        ease: "none"
-      });
-      
-      animateThreeJS();
+      animateSplash();
     }
-    function animateThreeJS() {
-      requestAnimationFrame(animateThreeJS);
-      // Анімація торус-кнота
-      torusKnot.rotation.x += 0.005;
-      torusKnot.rotation.y += 0.01;
-      // Анімація частинок
-      particles.rotation.y += 0.0008;
-      // Анімація куба (обертання)
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      // Анімація сфери (вертикальне коливання)
-      sphere.position.y = sphereInitialY + Math.sin(Date.now() * 0.001) * 0.5;
-      // Повільне обертання букви D, якщо вона завантажена
+    function animateSplash() {
+      requestAnimationFrame(animateSplash);
       if(letterD) {
+        // Повільне обертання для додаткової динаміки
         letterD.rotation.y += 0.005;
       }
-      renderer.render(scene, camera);
+      splashRenderer.render(splashScene, splashCamera);
     }
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-    initThreeJS();
-    
-    // GSAP ScrollTrigger анімації для секцій – анімація заголовків та абзаців з ефектом затримки
-    gsap.utils.toArray('section').forEach(section => {
-      gsap.from(section.querySelectorAll('h2, p, .content-section'), {
-        opacity: 0,
-        y: 50,
-        stagger: 0.2,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%"
-        }
-      });
-    });
-    
-    // Додаткові GSAP анімації на початку завантаження – для заголовку та елементів меню
-    gsap.from("header h1", { duration: 1, y: -50, opacity: 0, ease: "power2.out" });
-    gsap.from(".nav-links li", { duration: 1, y: -20, opacity: 0, stagger: 0.2, delay: 0.5, ease: "power2.out" });
-    
-    // GSAP анімації при наведенні на кнопки та посилання
-    const airdropButton = document.querySelector('#airdrop button');
-    airdropButton.addEventListener('mouseenter', () => {
-      gsap.to(airdropButton, { scale: 1.1, duration: 0.3, ease: "power1.out" });
-    });
-    airdropButton.addEventListener('mouseleave', () => {
-      gsap.to(airdropButton, { scale: 1, duration: 0.3, ease: "power1.out" });
-    });
-    
-    document.querySelectorAll('.nav-links li a').forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        gsap.to(link, { scale: 1.1, duration: 0.2, ease: "power1.out" });
-      });
-      link.addEventListener('mouseleave', () => {
-        gsap.to(link, { scale: 1, duration: 0.2, ease: "power1.out" });
-      });
-    });
-    
-    // Анімації для мобільного меню при наведенні
-    document.querySelectorAll('.mobile-nav li a').forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        gsap.to(link, { scale: 1.1, duration: 0.2, ease: "power1.out" });
-      });
-      link.addEventListener('mouseleave', () => {
-        gsap.to(link, { scale: 1, duration: 0.2, ease: "power1.out" });
-      });
-    });
+    // Після завершення анімації букви D – приховуємо спліш-екран
+    function endSplash() {
+      gsap.to("#splash", { duration: 1, opacity: 0, onComplete: () => {
+        const splashDiv = document.getElementById("splash");
+        splashDiv.parentNode.removeChild(splashDiv);
+      }});
+    }
 
-    // --- Language Switching Logic ---
+    /* --------------------- */
+    /* Перемикач мов */
     const translations = {
-      "title": {
-        "ua": "DEXP Token",
-        "en": "DEXP Token"
-      },
-      "nav_airdrop": {
-        "ua": "Аірдроп",
-        "en": "Airdrop"
-      },
-      "nav_about": {
-        "ua": "Про DEXP",
-        "en": "About DEXP"
-      },
-      "nav_tokenomics": {
-        "ua": "Токеноміка",
-        "en": "Tokenomics"
-      },
-      "nav_roadmap": {
-        "ua": "Дорожня карта",
-        "en": "Roadmap"
-      },
-      "nav_contact": {
-        "ua": "Контакти",
-        "en": "Contact"
-      },
-      "section_airdrop_heading": {
-        "ua": "Аірдроп DEXP",
-        "en": "DEXP Airdrop"
-      },
+      "title": { "ua": "DEXP Token", "en": "DEXP Token" },
+      "nav_airdrop": { "ua": "Аірдроп", "en": "Airdrop" },
+      "nav_about": { "ua": "Про DEXP", "en": "About DEXP" },
+      "nav_tokenomics": { "ua": "Токеноміка", "en": "Tokenomics" },
+      "nav_roadmap": { "ua": "Дорожня карта", "en": "Roadmap" },
+      "nav_contact": { "ua": "Контакти", "en": "Contact" },
+      "section_airdrop_heading": { "ua": "Аірдроп DEXP", "en": "DEXP Airdrop" },
       "section_airdrop_text": {
         "ua": "Отримайте безкоштовні токени DEXP! Приєднуйтесь до нашої спільноти та отримайте бонуси. Кількість токенів обмежена!",
         "en": "Get free DEXP tokens! Join our community and receive bonuses. Tokens are limited!"
       },
-      "airdrop_button": {
-        "ua": "Прийняти участь",
-        "en": "Participate"
-      },
-      "section_about_heading": {
-        "ua": "Про DEXP",
-        "en": "About DEXP"
-      },
+      "airdrop_button": { "ua": "Прийняти участь", "en": "Participate" },
+      "section_about_heading": { "ua": "Про DEXP", "en": "About DEXP" },
       "section_about_text": {
         "ua": "DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.",
         "en": "DEXP is a revolutionary token integrated into the TON ecosystem. We use advanced technologies to provide innovation, security, and high performance for our community."
       },
-      "section_tokenomics_heading": {
-        "ua": "Токеноміка",
-        "en": "Tokenomics"
-      },
+      "section_tokenomics_heading": { "ua": "Токеноміка", "en": "Tokenomics" },
       "section_tokenomics_text": {
         "ua": "Загальний обсяг: 111,000,000 токенів.<br>Спалено: 50,000,000 токенів.<br><br>- Команда: 6,000,000 (5.4%)<br>- Ліквідність: 10,000,000 (9%)<br>- Резерв: 5,000,000 (4.5%)<br>- Маркетинг: 11,100,000 (10%)<br>- Інвестори: 16,650,000 (15%)<br>- Стейкінг: 16,650,000 (15%)",
         "en": "Total supply: 111,000,000 tokens.<br>Burned: 50,000,000 tokens.<br><br>- Team: 6,000,000 (5.4%)<br>- Liquidity: 10,000,000 (9%)<br>- Reserve: 5,000,000 (4.5%)<br>- Marketing: 11,100,000 (10%)<br>- Investors: 16,650,000 (15%)<br>- Staking: 16,650,000 (15%)"
       },
-      "section_roadmap_heading": {
-        "ua": "Дорожня карта",
-        "en": "Roadmap"
-      },
+      "section_roadmap_heading": { "ua": "Дорожня карта", "en": "Roadmap" },
       "section_roadmap_text": {
         "ua": "<strong>Q1 2024:</strong> Старт проєкту, запуск токену DEXP, відкриття Telegram-каналу.<br><strong>Q2 2025:</strong> Аірдроп, збільшення ліквідності, лістинг на агрегаторах.<br><strong>Q3 2025:</strong> Розширення екосистеми, партнерські програми, інтеграції.<br><strong>2026:</strong> Глобальна експансія, інтеграція з Web3 сервісами.",
         "en": "<strong>Q1 2024:</strong> Project launch, DEXP token release, Telegram channel launch.<br><strong>Q2 2025:</strong> Airdrop, liquidity boost, listing on aggregators.<br><strong>Q3 2025:</strong> Ecosystem expansion, partnership programs, integrations.<br><strong>2026:</strong> Global expansion, integration with Web3 services."
       },
-      "section_contact_heading": {
-        "ua": "Контакти",
-        "en": "Contact"
-      },
-      "section_contact_text": {
-        "ua": "Зв'яжіться з нами через Telegram: ",
-        "en": "Contact us via Telegram: "
-      },
-      "footer_text": {
-       
+      "section_contact_heading": { "ua": "Контакти", "en": "Contact" },
+      "section_contact_text": { "ua": "Зв'яжіться з нами через Telegram: ", "en": "Contact us via Telegram: " },
+      "footer_text": { "ua": "&copy; 2025 DEXP Token. Усі права захищені.", "en": "&copy; 2025 DEXP Token. All rights reserved." }
+    };
+    let currentLanguage = 'ua';
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (translations[key] && translations[key][lang]) {
+          el.innerHTML = translations[key][lang];
+        }
+      });
+    }
+    setLanguage(currentLanguage);
+
+    /* --------------------- */
+    /* Ініціалізація: спочатку спліш-сцена, потім основна 3D-сцена */
+    window.addEventListener('load', () => {
+      initSplashScene();
+      initMainScene();
+    });
+  </script>
+  
+  <!-- Telegram Mini Apps Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/telegram-mini-apps-analytics@latest/dist/index.umd.min.js"></script>
+  <script>
+    TelegramMiniAppsAnalytics.init({
+      token: '7785515989:AAEDv0bfE32AJ8dZgcwdz1V1Vy50it67HRMeyJhcHBfbmFtZSI6IjQ1NjQ0NTY1VnYiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL2RleGxwX2JvdCIsImFwcF9kb21haW4iOiJodHRwczovL2RleHB1YS5naXRodWIuaW8vREVYUC8i
