@@ -37,7 +37,8 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.85);
+      /* Покращений дизайн: градієнтний фон замість суто чорного */
+      background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.95) 100%);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
       z-index: 100;
       display: flex;
@@ -286,25 +287,29 @@
     function participateAirdrop() {
       window.location.href = 'https://t.me/dexpua';
     }
-    // Three.js 3D фон із анімованим торус-кнотом та частинковою системою
-    let scene, camera, renderer, torusKnot, particles;
+
+    // Three.js 3D фон із анімованим торус-кнотом, частинковою системою, обертальним кубом та коливаючоюся сферою
+    let scene, camera, renderer, torusKnot, particles, cube, sphere, sphereInitialY;
     function initThreeJS() {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       camera.position.z = 4;
       renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
+      
       // Анімований торус-кнот
-      const geometry = new THREE.TorusKnotGeometry(1, 0.3, 150, 20);
-      const material = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5, metalness: 0.5 });
-      torusKnot = new THREE.Mesh(geometry, material);
+      const torusGeometry = new THREE.TorusKnotGeometry(1, 0.3, 150, 20);
+      const torusMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5, metalness: 0.5 });
+      torusKnot = new THREE.Mesh(torusGeometry, torusMaterial);
       scene.add(torusKnot);
+      
       // Освітлення
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
       scene.add(ambientLight);
       const pointLight = new THREE.PointLight(0xffffff, 1);
       pointLight.position.set(5, 5, 5);
       scene.add(pointLight);
+      
       // Частинкова система
       const particlesGeometry = new THREE.BufferGeometry();
       const particlesCount = 1500;
@@ -316,13 +321,49 @@
       const particlesMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.06 });
       particles = new THREE.Points(particlesGeometry, particlesMaterial);
       scene.add(particles);
+      
+      // Додатковий 3D-об'єкт: обертальний куб
+      const cubeGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+      const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, roughness: 0.6, metalness: 0.4 });
+      cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+      cube.position.set(-2, 1, 0);
+      scene.add(cube);
+      
+      // Додатковий 3D-об'єкт: плавно коливаючася сфера
+      const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+      const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.7, metalness: 0.3 });
+      sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      sphere.position.set(2, -1, 0);
+      sphereInitialY = sphere.position.y;
+      scene.add(sphere);
+      
+      // GSAP паралакс-ефект для камери (невелике зміщення при скролі)
+      gsap.to(camera.position, {
+        scrollTrigger: {
+          trigger: document.body,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true
+        },
+        x: 0.5,
+        y: 0.5,
+        ease: "none"
+      });
+      
       animateThreeJS();
     }
     function animateThreeJS() {
       requestAnimationFrame(animateThreeJS);
+      // Анімація торус-кнота
       torusKnot.rotation.x += 0.005;
       torusKnot.rotation.y += 0.01;
+      // Анімація частинок
       particles.rotation.y += 0.0008;
+      // Анімація куба (обертання)
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      // Анімація сфери (вертикальне коливання)
+      sphere.position.y = sphereInitialY + Math.sin(Date.now() * 0.001) * 0.5;
       renderer.render(scene, camera);
     }
     window.addEventListener('resize', () => {
@@ -331,17 +372,62 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
     initThreeJS();
-    // GSAP ScrollTrigger анімації для секцій
+    
+    // GSAP ScrollTrigger анімації для секцій – анімація заголовків та абзаців з ефектом затримки
     gsap.utils.toArray('section').forEach(section => {
-      gsap.from(section, {
+      gsap.from(section.querySelectorAll('h2, p, .content-section'), {
         opacity: 0,
         y: 50,
+        stagger: 0.2,
         duration: 1,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: section,
           start: "top 80%"
         }
       });
+    });
+    
+    // Додаткові GSAP анімації на початку завантаження – для заголовку та елементів меню
+    gsap.from("header h1", { duration: 1, y: -50, opacity: 0, ease: "power2.out" });
+    gsap.from(".nav-links li", { duration: 1, y: -20, opacity: 0, stagger: 0.2, delay: 0.5, ease: "power2.out" });
+    
+    // GSAP анімації при наведенні на кнопки та посилання
+    const airdropButton = document.querySelector('#airdrop button');
+    airdropButton.addEventListener('mouseenter', () => {
+      gsap.to(airdropButton, { scale: 1.1, duration: 0.3, ease: "power1.out" });
+    });
+    airdropButton.addEventListener('mouseleave', () => {
+      gsap.to(airdropButton, { scale: 1, duration: 0.3, ease: "power1.out" });
+    });
+    
+    document.querySelectorAll('.nav-links li a').forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        gsap.to(link, { scale: 1.1, duration: 0.2, ease: "power1.out" });
+      });
+      link.addEventListener('mouseleave', () => {
+        gsap.to(link, { scale: 1, duration: 0.2, ease: "power1.out" });
+      });
+    });
+    
+    // Анімації для мобільного меню при наведенні
+    document.querySelectorAll('.mobile-nav li a').forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        gsap.to(link, { scale: 1.1, duration: 0.2, ease: "power1.out" });
+      });
+      link.addEventListener('mouseleave', () => {
+        gsap.to(link, { scale: 1, duration: 0.2, ease: "power1.out" });
+      });
+    });
+  </script>
+  
+  <!-- Telegram Mini Apps Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/telegram-mini-apps-analytics@latest/dist/index.umd.min.js"></script>
+  <script>
+    // Ініціалізація Telegram Mini Apps Analytics (заміни 'YOUR_TELEGRAM_BOT_TOKEN' на свій токен)
+    TelegramMiniAppsAnalytics.init({
+      token: '7785515989:AAEDv0bfE32AJ8dZgcwdz1V1Vy50it67HRM'
+      // За бажанням можна додати додаткові налаштування
     });
   </script>
 </body>
