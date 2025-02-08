@@ -311,6 +311,9 @@
 
   <!-- Скрипти -->
   <script>
+    // Реєструємо ScrollTrigger для GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
     /* Меню та мобільне меню */
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
@@ -381,7 +384,7 @@
       sphereInitialY = sphere.position.y;
       scene.add(sphere);
       
-      // Паралакс для камери
+      // Паралакс для камери за допомогою ScrollTrigger
       gsap.to(camera.position, {
         scrollTrigger: {
           trigger: document.body,
@@ -575,5 +578,4 @@
       "airdrop_button": { "ua": "Прийняти участь", "en": "Participate" },
       "section_about_heading": { "ua": "Про DEXP", "en": "About DEXP" },
       "section_about_text": {
-        "ua": "DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології для забезпечення інновацій, безпеки та високої продуктивності для нашої спільноти.",
-        "en": "DEXP is a 
+        "ua": "DEXP – революційний токен, інтегрований в екосистему TON. Ми використовуємо передові технології д
